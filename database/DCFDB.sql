@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Generation Time: Sep 08, 2026 at 03:13 PM
--- Server version: 11.8.8-MariaDB-log
--- PHP Version: 7.2.34
+-- Host: 127.0.0.1
+-- Generation Time: Oct 02, 2026 at 06:25 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `u573112995_jaydb`
+-- Database: `ngomain`
 --
 
 -- --------------------------------------------------------
@@ -110,6 +110,53 @@ CREATE TABLE `agent_salary_ledger` (
   `remarks` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `agreements`
+--
+
+CREATE TABLE `agreements` (
+  `id` int(11) NOT NULL,
+  `agreement_no` varchar(50) NOT NULL COMMENT 'Unique identifier e.g. MOU-2026-0001',
+  `partner_name` varchar(200) NOT NULL COMMENT 'Second party / partner organization name',
+  `partner_type` varchar(100) DEFAULT 'organization' COMMENT 'hospital, school, corporate, vendor, ngo, etc.',
+  `partner_contact` varchar(50) DEFAULT NULL,
+  `partner_email` varchar(150) DEFAULT NULL,
+  `partner_address` text DEFAULT NULL,
+  `partner_member_id` int(11) DEFAULT NULL,
+  `type` enum('mou','authorization','service_agreement','partnership') NOT NULL DEFAULT 'mou',
+  `title` varchar(255) NOT NULL,
+  `content` longtext NOT NULL COMMENT 'Clauses and Agreement Body Text',
+  `signed_status` enum('draft','pending_signature','signed','expired','terminated') NOT NULL DEFAULT 'draft',
+  `is_acknowledged` tinyint(1) NOT NULL DEFAULT 0,
+  `acknowledged_at` datetime DEFAULT NULL,
+  `acknowledged_name` varchar(150) DEFAULT NULL,
+  `acknowledged_ip` varchar(45) DEFAULT NULL,
+  `acknowledged_user_agent` varchar(255) DEFAULT NULL,
+  `acknowledgment_token` varchar(64) DEFAULT NULL,
+  `signed_date` date DEFAULT NULL,
+  `valid_until` date DEFAULT NULL,
+  `pdf_path` varchar(255) DEFAULT NULL,
+  `file_size` int(11) DEFAULT NULL,
+  `generated_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `first_party_name` varchar(150) DEFAULT NULL,
+  `first_party_designation` varchar(100) DEFAULT NULL,
+  `second_party_name` varchar(150) DEFAULT NULL,
+  `second_party_designation` varchar(100) DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `agreements`
+--
+
+INSERT INTO `agreements` (`id`, `agreement_no`, `partner_name`, `partner_type`, `partner_contact`, `partner_email`, `partner_address`, `partner_member_id`, `type`, `title`, `content`, `signed_status`, `is_acknowledged`, `acknowledged_at`, `acknowledged_name`, `acknowledged_ip`, `acknowledged_user_agent`, `acknowledgment_token`, `signed_date`, `valid_until`, `pdf_path`, `file_size`, `generated_date`, `first_party_name`, `first_party_designation`, `second_party_name`, `second_party_designation`, `created_by`, `created_at`, `updated_at`) VALUES
+(1, 'MOU-2026-0001', 'Metro Care Healthcare & Diagnostics Trust', 'Healthcare Network', '+91 9820011223', 'partnerships@metrocaretrust.org', 'Plot 45, MIDC Central Road, Andheri East, Mumbai, Maharashtra 400093', NULL, 'mou', 'MEMORANDUM OF UNDERSTANDING (MoU) FOR COMMUNITY WELFARE & PARTNERSHIP', 'This Memorandum of Understanding (hereinafter referred to as \"MoU\") is made and entered into on this 15 Sep 2026 (the \"Effective Date\"), by and between:\n\nFIRST PARTY:\nJaysmrutti Foundation (A Registered Non-Governmental Organization bearing 123455), having its official office at 2nd Floor, Dharma Villa, Wazidpur Tiraha, Jaunpur, Uttar Pradesh - 222002, India (hereinafter referred to as the \"First Party\" / \"NGO\", which expression shall unless repugnant to the context include its successors, trustees, and assignees).\n\nAND\n\nSECOND PARTY:\nMetro Care Healthcare Trust, having its principal facility/office at Andheri East, Mumbai, Maharashtra (hereinafter referred to as the \"Second Party\" / \"Partner\", which expression shall include its representatives, successors, and permitted assignees).\n\nWHEREAS:\nA. The First Party is dedicated to rural upliftment, health camps, vocational training, educational sponsorship, and humanitarian relief for underprivileged families.\nB. The Second Party possesses specialized facilities, community outreach capabilities, and resources aligned with charitable and social impact objectives.\nC. Both Parties mutually desire to collaborate in good faith to maximize public benefit and social welfare across operational districts.\n\nNOW, THEREFORE, IT IS MUTUALLY AGREED AS FOLLOWS:\n\n1. PURPOSE & SCOPE OF COOPERATION\nThe primary purpose of this MoU is to establish a cooperative framework for joint humanitarian initiatives, including health screening camps, subsidized diagnostics/treatments, career development workshops, and relief aid for verified beneficiaries.\n\n2. ROLES & RESPONSIBILITIES OF THE FIRST PARTY (NGO)\n2.1 Identify, verify, and refer eligible marginalized beneficiaries, students, and patients requiring assistance.\n2.2 Issue official referral vouchers, health beneficiary identity cards, and verification certificates.\n2.3 Provide volunteer support, event mobilization, and promotional assistance for joint social drives.\n2.4 Maintain transparent documentation and maintain compliance with NGO regulatory norms.\n\n3. ROLES & RESPONSIBILITIES OF THE SECOND PARTY (PARTNER)\n3.1 Provide agreed subsidized concessions, professional guidance, or priority service to beneficiaries carrying official NGO credentials.\n3.2 Participate in periodic community outreach programs, health camps, or skill development workshops as mutually scheduled.\n3.3 Share attendance/treatment records or execution summaries with the NGO coordinator for impact evaluation.\n3.4 Ensure zero commercial exploitation of sponsored candidates or marginalized families.\n\n4. NON-COMMERCIAL UNDERTAKING & ETHICS\nThis alliance is built on charitable and non-commercial principles. Neither Party shall charge unauthorized fees or misrepresent the partnership for commercial gains contrary to the spirit of social welfare.\n\n5. DURATION & VALIDITY\nThis MoU shall remain valid from 15 Sep 2026 until 14 Sep 2027, unless terminated earlier by mutual consent or extended in writing with mutual agreement.\n\n6. TERMINATION\nEither Party may terminate this MoU by providing thirty (30) days prior written notice to the other Party. Ongoing beneficiary services under active commitment shall be duly honored.\n\nIN WITNESS WHEREOF, the Authorized Representatives of the First Party and Second Party have executed this Memorandum of Understanding as of the date first written above.', 'signed', 0, NULL, NULL, NULL, NULL, 'dc15e6294bcb115fe945e9c355545859', '2026-09-15', '2027-09-14', 'uploads/documents/agreements/Agreement_MOU-2026-0001.pdf', 248705, '2026-09-12 16:00:24', 'Authorized Signatory', 'President / General Secretary', 'Dr. Vikram Malhotra', 'Executive Director & Chief Trustee', NULL, '2026-09-12 10:30:24', '2026-09-12 10:32:36'),
+(2, 'AUTH-2026-0002', 'SmileCare Dental & Oral Health Institute', 'Empanelled Dental Center', '+91 9415099881', 'info@smilecareinstitute.in', 'Shop 12-14, Ground Floor, MG Road, Hazratganj, Lucknow, Uttar Pradesh 226001', NULL, 'authorization', 'OFFICIAL LETTER OF AUTHORIZATION & EMPANELMENT', 'TO WHOMSOEVER IT MAY CONCERN\n\nThis is to officially certify that:\n\nDr. Sharma Eye Care Clinic\nLocated at: Hazratganj, Lucknow, Uttar Pradesh\n\nhas been officially recognized and empanelled as an AUTHORIZED COMMUNITY COLLABORATION PARTNER & NODAL CENTER of Jaysmrutti Foundation (123455) effective from 12 Sep 2026.\n\nSCOPE OF AUTHORIZATION & RECOGNITION:\n1. The partner is authorized to act as an official community facilitation and assistance center for NGO social welfare programs, health card verification, and citizen assistance drives in its designated territory.\n2. Authorized to display official NGO collaboration signage, partner empanelment certificates, and distribute public awareness literature.\n3. Entitled to coordinate official medical checkup camps, skill workshops, and relief drives in association with designated NGO coordinators.\n4. Bound to strictly adhere to the non-profit charter, ethical guidelines, and transparency mandates of Jaysmrutti Foundation.\n\nVALIDITY & MONITORING:\nThis authorization is granted up to 11 Sep 2027 and is subject to annual performance review and ethical compliance. It does not confer financial liability or legal representation beyond the specified scope.\n\nIssued with the seal and authority of the Central Governing Body.', 'signed', 0, NULL, NULL, NULL, NULL, 'ea772d341c9838187479579c28db8ae1', '2026-09-12', '2027-09-11', 'uploads/documents/agreements/Agreement_AUTH-2026-0002.pdf', 246464, '2026-09-12 16:00:25', 'Authorized Signatory', 'President / General Secretary', 'Dr. Ananya Rastogi', 'Senior Dental Surgeon & Center Head', NULL, '2026-09-12 10:30:25', '2026-09-12 10:32:36');
 
 -- --------------------------------------------------------
 
@@ -292,6 +339,137 @@ INSERT INTO `bank_accounts` (`id`, `bank_name`, `account_holder`, `account_numbe
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `beneficiaries`
+--
+
+CREATE TABLE `beneficiaries` (
+  `id` int(11) NOT NULL,
+  `beneficiary_code` varchar(50) DEFAULT NULL,
+  `name` varchar(150) NOT NULL,
+  `father_or_spouse_name` varchar(150) DEFAULT NULL,
+  `gender` enum('Male','Female','Other') NOT NULL DEFAULT 'Male',
+  `dob` date DEFAULT NULL,
+  `age` int(11) DEFAULT NULL,
+  `contact` varchar(20) NOT NULL,
+  `alternate_contact` varchar(20) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `aadhar_no` varchar(20) DEFAULT NULL,
+  `ration_card_no` varchar(50) DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  `beneficiary_type` varchar(100) DEFAULT 'General / BPL',
+  `annual_income` decimal(10,2) DEFAULT NULL,
+  `family_members_count` int(11) NOT NULL DEFAULT 1,
+  `disability_status` enum('No','Yes') NOT NULL DEFAULT 'No',
+  `disability_details` varchar(255) DEFAULT NULL,
+  `address` text NOT NULL,
+  `block` varchar(100) DEFAULT NULL,
+  `district` varchar(100) NOT NULL,
+  `state` varchar(100) NOT NULL,
+  `village_city` varchar(100) DEFAULT NULL,
+  `pincode` varchar(10) DEFAULT NULL,
+  `photo` varchar(255) DEFAULT NULL,
+  `id_proof_doc` varchar(255) DEFAULT NULL,
+  `income_proof_doc` varchar(255) DEFAULT NULL,
+  `registration_date` date NOT NULL,
+  `status` enum('Active','Inactive','Under Review','Assisted','Archived') NOT NULL DEFAULT 'Active',
+  `project_id` int(11) DEFAULT NULL,
+  `registered_by` int(11) DEFAULT NULL,
+  `coordinator_id` int(11) DEFAULT NULL,
+  `field_agent_id` int(11) DEFAULT NULL,
+  `sa_student_id` int(11) DEFAULT NULL,
+  `remarks` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `beneficiaries`
+--
+
+INSERT INTO `beneficiaries` (`id`, `beneficiary_code`, `name`, `father_or_spouse_name`, `gender`, `dob`, `age`, `contact`, `alternate_contact`, `email`, `aadhar_no`, `ration_card_no`, `category_id`, `beneficiary_type`, `annual_income`, `family_members_count`, `disability_status`, `disability_details`, `address`, `block`, `district`, `state`, `village_city`, `pincode`, `photo`, `id_proof_doc`, `income_proof_doc`, `registration_date`, `status`, `project_id`, `registered_by`, `coordinator_id`, `field_agent_id`, `sa_student_id`, `remarks`, `created_at`, `updated_at`) VALUES
+(1, 'BEN-2026-0001', 'Sunita Devi', 'Late Rajesh Sharma', 'Female', '1982-04-12', 44, '9876543210', NULL, NULL, '123456789012', NULL, 4, 'Widows & Single Mothers', 36000.00, 3, 'No', NULL, 'Village Rampur, Near Primary School', NULL, 'Patna', 'Bihar', NULL, NULL, NULL, NULL, NULL, '2026-01-15', 'Assisted', NULL, NULL, NULL, NULL, NULL, 'Enrolled under women welfare outreach program', '2026-09-12 07:32:48', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `beneficiary_assistance_history`
+--
+
+CREATE TABLE `beneficiary_assistance_history` (
+  `id` int(11) NOT NULL,
+  `assistance_code` varchar(50) DEFAULT NULL,
+  `beneficiary_id` int(11) NOT NULL,
+  `assistance_type` enum('Financial Aid','Medical Aid','Educational Support','Ration & Food Kit','Clothing & Blankets','Mobility & Assistive Devices','Shelter & Housing','Skill Training & Livelihood','Emergency Relief','In-Kind Items','Other') NOT NULL,
+  `description` text NOT NULL,
+  `amount` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `items_detail` varchar(255) DEFAULT NULL,
+  `quantity` decimal(10,2) NOT NULL DEFAULT 1.00,
+  `unit` varchar(30) NOT NULL DEFAULT 'units',
+  `estimated_value` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `date` date NOT NULL,
+  `given_by` varchar(100) DEFAULT NULL,
+  `coordinator_id` int(11) DEFAULT NULL,
+  `field_agent_id` int(11) DEFAULT NULL,
+  `sa_student_id` int(11) DEFAULT NULL,
+  `project_id` int(11) DEFAULT NULL,
+  `item_donation_id` int(11) DEFAULT NULL,
+  `donation_id` int(11) DEFAULT NULL,
+  `event_id` int(11) DEFAULT NULL,
+  `distribution_location` varchar(255) DEFAULT NULL,
+  `proof_photo` varchar(255) DEFAULT NULL,
+  `receipt_no` varchar(50) DEFAULT NULL,
+  `status` enum('Pending Approval','Approved','Distributed','Verified','Cancelled') NOT NULL DEFAULT 'Distributed',
+  `remarks` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `beneficiary_assistance_history`
+--
+
+INSERT INTO `beneficiary_assistance_history` (`id`, `assistance_code`, `beneficiary_id`, `assistance_type`, `description`, `amount`, `items_detail`, `quantity`, `unit`, `estimated_value`, `date`, `given_by`, `coordinator_id`, `field_agent_id`, `sa_student_id`, `project_id`, `item_donation_id`, `donation_id`, `event_id`, `distribution_location`, `proof_photo`, `receipt_no`, `status`, `remarks`, `created_at`, `updated_at`) VALUES
+(1, 'AST-2026-0001', 1, 'Ration & Food Kit', 'Emergency dry ration kit (Rice 10kg, Wheat Flour 10kg, Pulses 2kg, Cooking Oil 2L, Spices)', 0.00, 'Dry Ration Family Kit', 1.00, 'kit', 1450.00, '2026-01-20', 'Admin Coordinator', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Patna Central Relief Camp', NULL, NULL, 'Distributed', NULL, '2026-09-12 07:32:48', NULL),
+(2, 'AST-2026-0002', 1, 'Educational Support', 'School fee sponsorship and book kit for 2 children (Class 6 & 8)', 3500.00, 'School Books & Stationery Kits', 2.00, 'kits', 1200.00, '2026-02-10', 'Education Wing', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Patna Head Office', NULL, NULL, 'Distributed', NULL, '2026-09-12 07:32:48', NULL),
+(3, 'AST-2026-0003', 1, 'Clothing & Blankets', 'Winter woollens, blankets, and school uniforms distribution', 0.00, 'Warm Blankets & Clothes', 3.00, 'sets', 1800.00, '2026-03-01', 'Field Team', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Rampur Community Center', NULL, NULL, 'Distributed', NULL, '2026-09-12 07:32:48', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `beneficiary_categories`
+--
+
+CREATE TABLE `beneficiary_categories` (
+  `id` int(11) NOT NULL,
+  `category_name` varchar(100) NOT NULL,
+  `category_slug` varchar(100) NOT NULL,
+  `description` text DEFAULT NULL,
+  `icon` varchar(100) DEFAULT 'fa-hands-holding-child',
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `display_order` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `beneficiary_categories`
+--
+
+INSERT INTO `beneficiary_categories` (`id`, `category_name`, `category_slug`, `description`, `icon`, `is_active`, `display_order`, `created_at`, `updated_at`) VALUES
+(1, 'Below Poverty Line (BPL)', 'below-poverty-line', 'Economically disadvantaged and low-income families requiring essential livelihood support', 'fa-house-chimney-crack', 1, 1, '2026-09-12 07:26:35', NULL),
+(2, 'Senior Citizens & Elderly', 'senior-citizens', 'Aged individuals without family support needing care, health, and ration assistance', 'fa-person-cane', 1, 2, '2026-09-12 07:26:35', NULL),
+(3, 'Orphans & Vulnerable Children', 'orphans-children', 'Children in need of care, education sponsorship, nutrition, and shelter', 'fa-child-reaching', 1, 3, '2026-09-12 07:26:35', NULL),
+(4, 'Widows & Single Mothers', 'widows-single-mothers', 'Women facing socio-economic distress requiring financial, nutritional, or livelihood aid', 'fa-person-dress', 1, 4, '2026-09-12 07:26:35', NULL),
+(5, 'Divyang (Physically Challenged)', 'physically-challenged', 'Persons with special physical or mobility needs requiring assistive equipment and aids', 'fa-wheelchair', 1, 5, '2026-09-12 07:26:35', NULL),
+(6, 'Students & Education Aid', 'students-education', 'Underprivileged students requiring books, school fees, uniforms, and educational kits', 'fa-graduation-cap', 1, 6, '2026-09-12 07:26:35', NULL),
+(7, 'Medical & Health Patients', 'medical-patients', 'Patients needing critical medical support, medicines, treatment subsidies, or health devices', 'fa-hand-holding-medical', 1, 7, '2026-09-12 07:26:35', NULL),
+(8, 'Disaster & Emergency Relief', 'disaster-relief', 'Families affected by natural calamities, fire, floods, or sudden emergencies', 'fa-tents', 1, 8, '2026-09-12 07:26:35', NULL),
+(9, 'Daily Wage & Migrant Workers', 'daily-wage-workers', 'Informal workers needing emergency ration, clothing, health aids, or skill support', 'fa-person-digging', 1, 9, '2026-09-12 07:26:35', NULL),
+(10, 'General Welfare', 'general-welfare', 'General community welfare beneficiaries receiving community distribution support', 'fa-hands-holding-heart', 1, 10, '2026-09-12 07:26:35', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `cash_deposits`
 --
 
@@ -326,7 +504,49 @@ CREATE TABLE `certificates` (
 --
 
 INSERT INTO `certificates` (`id`, `title`, `image_path`, `created_at`) VALUES
-(2, 'SPICE_PART_B', 'uploads/certificates/1788162308_SPICE__Part_B_Approval_Letter_AA2293644_page-0001.jpg', '2026-08-31 07:45:08');
+(5, '12A (part A)', 'uploads/certificates/1790487014_Screenshot_27-9-2026_105936_.jpeg', '2026-09-27 05:30:14'),
+(6, '12A(part B)', 'uploads/certificates/1790487088_Screenshot_27-9-2026_11058_.jpeg', '2026-09-27 05:31:28'),
+(7, '80 G', 'uploads/certificates/1790487165_Screenshot_27-9-2026_11228_.jpeg', '2026-09-27 05:32:45'),
+(8, '80G (Part B)', 'uploads/certificates/1790487288_Screenshot_27-9-2026_1144_.jpeg', '2026-09-27 05:34:48'),
+(9, 'NGO Darpan', 'uploads/certificates/1790487372_Screenshot_27-9-2026_11540_.jpeg', '2026-09-27 05:36:12'),
+(10, 'Pan Card', 'uploads/certificates/1790487442_Screenshot_27-9-2026_11658_.jpeg', '2026-09-27 05:37:22');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `complaints`
+--
+
+CREATE TABLE `complaints` (
+  `id` int(11) NOT NULL,
+  `ticket_no` varchar(50) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `contact` varchar(50) NOT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `type` enum('complaint','suggestion') NOT NULL DEFAULT 'complaint',
+  `subject` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `status` enum('pending','in_progress','on_hold','resolved') NOT NULL DEFAULT 'pending',
+  `priority` enum('low','medium','high','urgent') NOT NULL DEFAULT 'medium',
+  `admin_reply` text DEFAULT NULL,
+  `reply_by` int(11) DEFAULT NULL,
+  `replied_at` datetime DEFAULT NULL,
+  `resolved_at` datetime DEFAULT NULL,
+  `attachment_path` varchar(255) DEFAULT NULL,
+  `user_ip` varchar(45) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `complaints`
+--
+
+INSERT INTO `complaints` (`id`, `ticket_no`, `name`, `contact`, `email`, `type`, `subject`, `description`, `status`, `priority`, `admin_reply`, `reply_by`, `replied_at`, `resolved_at`, `attachment_path`, `user_ip`, `created_at`, `updated_at`) VALUES
+(1, 'TKT-2026-1001', 'Vikram Singhania', '+91 9876543210', 'vikram.s@example.com', 'complaint', 'Delayed Ration Kit Distribution in Ward 12', 'The scheduled food and dry ration distribution in Ward 12 was delayed by 3 hours today. Beneficiaries had to wait in the sun.', 'in_progress', 'high', 'Our regional coordinator is investigating the vehicle breakdown issue. Support teams have now arrived on site.', 2, '2026-09-11 13:48:45', NULL, NULL, NULL, '2026-09-12 08:18:45', NULL),
+(2, 'TKT-2026-1002', 'Pooja Deshmukh', '+91 9812345678', 'pooja.d@example.com', 'suggestion', 'Suggestion to Add Digital Health Checkup Tracker', 'It would be great if beneficiary medical cards include a QR code linking their basic immunization and health records.', 'pending', 'medium', NULL, NULL, NULL, NULL, NULL, NULL, '2026-09-12 08:18:45', NULL),
+(3, 'TKT-2026-1003', 'Mohammed Farhan', '+91 9723456789', 'farhan.m@example.com', 'complaint', 'Receipt Download Link Not Working', 'I made a clothes donation yesterday but the instant SMS receipt download link showed a server timeout.', 'resolved', 'medium', 'The issue has been resolved and your receipt PDF has been resent to your verified email address.', 2, '2026-09-12 11:48:45', '2026-09-12 13:48:45', NULL, NULL, '2026-09-12 08:18:45', NULL),
+(6, 'TKT-TEST-6317', 'Ramesh Kumar', '+91 9876543210', 'ramesh.test@example.com', 'complaint', 'Street light issue near community center', 'The street lights near the community hall are broken for 2 weeks.', 'pending', 'medium', NULL, NULL, NULL, NULL, NULL, NULL, '2026-09-12 08:31:25', NULL);
 
 -- --------------------------------------------------------
 
@@ -394,6 +614,74 @@ CREATE TABLE `crowdfunding_campaigns` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `custom_receipts`
+--
+
+CREATE TABLE `custom_receipts` (
+  `id` int(11) NOT NULL,
+  `receipt_no` varchar(60) NOT NULL,
+  `payer_name` varchar(255) NOT NULL,
+  `payer_phone` varchar(50) DEFAULT NULL,
+  `payer_email` varchar(150) DEFAULT NULL,
+  `payer_pan` varchar(20) DEFAULT NULL,
+  `payer_address` text DEFAULT NULL,
+  `amount` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `amount_in_words` varchar(255) DEFAULT NULL,
+  `date` date NOT NULL,
+  `purpose` varchar(255) NOT NULL DEFAULT 'Donation / Contribution',
+  `payment_mode` varchar(50) NOT NULL DEFAULT 'Cash',
+  `transaction_ref` varchar(100) DEFAULT NULL,
+  `generated_by` int(11) DEFAULT NULL,
+  `pdf_path` varchar(255) DEFAULT NULL,
+  `status` enum('generated','cancelled','draft') NOT NULL DEFAULT 'generated',
+  `remarks` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `doctor_agreements`
+--
+
+CREATE TABLE `doctor_agreements` (
+  `id` int(11) NOT NULL,
+  `agreement_no` varchar(50) NOT NULL,
+  `partner_id` int(11) NOT NULL COMMENT 'Links to healthcare_providers.id',
+  `agreement_title` varchar(255) NOT NULL DEFAULT 'Partner Doctor / Healthcare Empanelment Agreement',
+  `doctor_name` varchar(150) DEFAULT NULL,
+  `speciality` varchar(100) DEFAULT NULL,
+  `discount_terms` varchar(255) DEFAULT NULL,
+  `agreement_doc_path` varchar(255) DEFAULT NULL,
+  `file_size` varchar(50) DEFAULT NULL,
+  `signed_date` date DEFAULT NULL,
+  `valid_until` date DEFAULT NULL,
+  `certificate_no` varchar(50) DEFAULT NULL,
+  `certificate_pdf_path` varchar(255) DEFAULT NULL,
+  `certificate_issued_at` datetime DEFAULT NULL,
+  `status` enum('active','pending_signature','under_renewal','expired','terminated') NOT NULL DEFAULT 'active',
+  `is_acknowledged` tinyint(1) NOT NULL DEFAULT 0,
+  `acknowledged_at` datetime DEFAULT NULL,
+  `acknowledged_name` varchar(150) DEFAULT NULL,
+  `acknowledged_ip` varchar(45) DEFAULT NULL,
+  `remarks` text DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `doctor_agreements`
+--
+
+INSERT INTO `doctor_agreements` (`id`, `agreement_no`, `partner_id`, `agreement_title`, `doctor_name`, `speciality`, `discount_terms`, `agreement_doc_path`, `file_size`, `signed_date`, `valid_until`, `certificate_no`, `certificate_pdf_path`, `certificate_issued_at`, `status`, `is_acknowledged`, `acknowledged_at`, `acknowledged_name`, `acknowledged_ip`, `remarks`, `created_by`, `created_at`, `updated_at`) VALUES
+(1, 'AGR-DR-2026-001', 1, 'Annual Doctor Empanelment & Free Consultation MOU', 'Drishti Eye & Retina Super Speciality Hospital', 'eye', '25% Discount on OPD & 100% Free Consultation for Verified Health Card Holders', 'uploads/documents/doctor_agreement_01.pdf', '320 KB', '2026-01-15', '2027-01-14', 'DOC-CERT-2026-0001', 'uploads/documents/doctor_certificates/Doctor_Certificate_DOC-CERT-2026-0001.pdf', '2026-09-12 15:38:06', 'active', 0, NULL, NULL, NULL, 'Approved under Jaysmrutti Swasthya Suraksha Scheme.', NULL, '2026-09-12 10:02:51', '2026-09-12 10:08:06'),
+(2, 'TEST-AGR-1789207610', 1, 'Annual Doctor Empanelment & Free Consultation Test MOU', 'Dr. Vikramaditya Rathore, MS (Eye)', 'Ophthalmology & Eye Care', '30% Discount on Specialized Surgeries & 100% Free OPD for Health Card Holders', NULL, NULL, '2026-03-01', '2027-02-28', 'DOC-CERT-2026-0002', 'uploads/documents/doctor_certificates/Doctor_Certificate_DOC-CERT-2026-0002.pdf', '2026-09-12 17:06:26', 'active', 0, NULL, NULL, NULL, 'Verified under test suite.', NULL, '2026-09-12 10:06:50', '2026-09-12 11:36:26');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `donations`
 --
 
@@ -406,7 +694,7 @@ CREATE TABLE `donations` (
   `donor_pan` varchar(20) DEFAULT NULL,
   `donor_address` text DEFAULT NULL,
   `amount` decimal(10,2) NOT NULL,
-  `payment_gateway` enum('Manual','Razorpay') NOT NULL DEFAULT 'Manual',
+  `payment_gateway` varchar(50) NOT NULL DEFAULT 'Razorpay',
   `transaction_id` varchar(100) DEFAULT NULL,
   `razorpay_order_id` varchar(120) DEFAULT NULL,
   `razorpay_payment_id` varchar(120) DEFAULT NULL,
@@ -421,6 +709,8 @@ CREATE TABLE `donations` (
   `verified_at` timestamp NULL DEFAULT NULL,
   `achievement_processed` tinyint(1) NOT NULL DEFAULT 0,
   `sa_student_id` int(11) DEFAULT NULL,
+  `recurring_donation_id` int(11) DEFAULT NULL,
+  `is_recurring` tinyint(1) NOT NULL DEFAULT 0,
   `collection_city` varchar(120) DEFAULT NULL,
   `field_agent_id` int(11) DEFAULT NULL,
   `collection_area` varchar(100) DEFAULT NULL,
@@ -431,9 +721,9 @@ CREATE TABLE `donations` (
 -- Dumping data for table `donations`
 --
 
-INSERT INTO `donations` (`id`, `project_id`, `donor_name`, `donor_email`, `donor_mobile`, `donor_pan`, `donor_address`, `amount`, `payment_gateway`, `transaction_id`, `razorpay_order_id`, `razorpay_payment_id`, `razorpay_signature`, `payment_screenshot`, `payment_status`, `receipt_no`, `referral_code`, `is_80g_eligible`, `created_at`, `verified_by`, `verified_at`, `achievement_processed`, `sa_student_id`, `collection_city`, `field_agent_id`, `collection_area`, `payment_mode_field`) VALUES
-(7, NULL, 'Abhishek Kumar', 'panditabhishek9651@gmail.com', '9651826737', '', NULL, 500.00, 'Razorpay', 'pay_TDhhssv8zftmNj', 'order_TDhhh250ar8opC', 'pay_TDhhssv8zftmNj', '420d69a10ea1d2b9aabe6e7e457442fdabe4dd5e0426fe70c956ae749cc306ad', NULL, 'Success', 'R2026-00001', NULL, 0, '2026-07-15 07:55:04', NULL, NULL, 0, NULL, NULL, NULL, NULL, 'cash'),
-(8, 13, 'Velnix Soft', 'velnixsoft@gmail.com', '7651910331', 'KSYPK8808N', NULL, 500.00, 'Manual', 'T2608300755315474719115', NULL, NULL, NULL, 'uploads/donations/1788342515_6a97f0f39f584_payment.jpeg', 'Success', 'R2026-00002', NULL, 1, '2026-09-02 09:48:35', NULL, NULL, 0, NULL, NULL, NULL, NULL, 'cash');
+INSERT INTO `donations` (`id`, `project_id`, `donor_name`, `donor_email`, `donor_mobile`, `donor_pan`, `donor_address`, `amount`, `payment_gateway`, `transaction_id`, `razorpay_order_id`, `razorpay_payment_id`, `razorpay_signature`, `payment_screenshot`, `payment_status`, `receipt_no`, `referral_code`, `is_80g_eligible`, `created_at`, `verified_by`, `verified_at`, `achievement_processed`, `sa_student_id`, `recurring_donation_id`, `is_recurring`, `collection_city`, `field_agent_id`, `collection_area`, `payment_mode_field`) VALUES
+(7, NULL, 'Abhishek Kumar', 'panditabhishek9651@gmail.com', '9651826737', '', NULL, 500.00, 'Razorpay', 'pay_TDhhssv8zftmNj', 'order_TDhhh250ar8opC', 'pay_TDhhssv8zftmNj', '420d69a10ea1d2b9aabe6e7e457442fdabe4dd5e0426fe70c956ae749cc306ad', NULL, 'Success', 'R2026-00001', NULL, 0, '2026-07-15 07:55:04', NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, NULL, 'cash'),
+(8, 13, 'Velnix Soft', 'velnixsoft@gmail.com', '7651910331', 'KSYPK8808N', NULL, 500.00, 'Manual', 'T2608300755315474719115', NULL, NULL, NULL, 'uploads/donations/1788342515_6a97f0f39f584_payment.jpeg', 'Success', 'R2026-00002', NULL, 1, '2026-09-02 09:48:35', NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, NULL, 'cash');
 
 -- --------------------------------------------------------
 
@@ -547,6 +837,114 @@ CREATE TABLE `event_registrations` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `expenses`
+--
+
+CREATE TABLE `expenses` (
+  `id` int(11) NOT NULL,
+  `expense_code` varchar(50) DEFAULT NULL,
+  `category_id` int(11) NOT NULL,
+  `project_id` int(11) DEFAULT NULL,
+  `amount` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `date` date NOT NULL,
+  `purpose` text NOT NULL,
+  `payment_mode` enum('Cash','Bank Transfer','UPI','Cheque','Credit/Debit Card','Other') NOT NULL DEFAULT 'Cash',
+  `reference_no` varchar(100) DEFAULT NULL,
+  `vendor_payee_name` varchar(150) DEFAULT NULL,
+  `bill_document_path` varchar(255) DEFAULT NULL,
+  `added_by` int(11) NOT NULL,
+  `approved_status` enum('Pending','Approved','Rejected','Paid') NOT NULL DEFAULT 'Pending',
+  `approved_by` int(11) DEFAULT NULL,
+  `approved_at` datetime DEFAULT NULL,
+  `rejection_reason` text DEFAULT NULL,
+  `remarks` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `expenses`
+--
+
+INSERT INTO `expenses` (`id`, `expense_code`, `category_id`, `project_id`, `amount`, `date`, `purpose`, `payment_mode`, `reference_no`, `vendor_payee_name`, `bill_document_path`, `added_by`, `approved_status`, `approved_by`, `approved_at`, `rejection_reason`, `remarks`, `created_at`, `updated_at`) VALUES
+(2, 'EXP-2026-0002', 1, 9, 100.00, '2026-09-13', 'visiting schools', 'Cash', NULL, NULL, NULL, 2, 'Approved', 2, '2026-09-13 12:52:17', NULL, 'Anuj gaya visit karne', '2026-09-13 07:22:17', '2026-09-13 07:22:17');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `expense_categories`
+--
+
+CREATE TABLE `expense_categories` (
+  `id` int(11) NOT NULL,
+  `category_name` varchar(100) NOT NULL,
+  `category_slug` varchar(100) NOT NULL,
+  `description` text DEFAULT NULL,
+  `icon` varchar(100) DEFAULT 'fa-receipt',
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `display_order` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `expense_categories`
+--
+
+INSERT INTO `expense_categories` (`id`, `category_name`, `category_slug`, `description`, `icon`, `is_active`, `display_order`, `created_at`, `updated_at`) VALUES
+(1, 'Travel', 'travel', 'Field visit transport, fuel, vehicle rent, conveyance, and travel allowances', 'fa-car-side', 1, 1, '2026-09-12 07:47:45', NULL),
+(2, 'Event', 'event', 'Community awareness drives, relief camps, stage setup, and event logistics', 'fa-calendar-check', 1, 2, '2026-09-12 07:47:45', NULL),
+(3, 'Utility', 'utility', 'Electricity, water, high-speed internet, telephone, and recurring utility bills', 'fa-bolt', 1, 3, '2026-09-12 07:47:45', NULL),
+(4, 'Staff', 'staff', 'Staff honorarium, coordinator stipends, volunteer welfare, and refreshments', 'fa-users-gear', 1, 4, '2026-09-12 07:47:45', NULL),
+(5, 'Office', 'office', 'Office stationery, printing, rent, software subscriptions, and maintenance', 'fa-building', 1, 5, '2026-09-12 07:47:45', NULL),
+(6, 'Project', 'project', 'Direct welfare material purchases, aid procurement, and project execution costs', 'fa-seedling', 1, 6, '2026-09-12 07:47:45', NULL),
+(7, 'Other', 'other', 'Miscellaneous operational costs, bank charges, legal fees, and sundry expenses', 'fa-layer-group', 1, 7, '2026-09-12 07:47:45', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `feedbacks`
+--
+
+CREATE TABLE `feedbacks` (
+  `id` int(11) NOT NULL,
+  `feedback_no` varchar(50) NOT NULL,
+  `submitter_type` enum('employee','member','volunteer','field_agent','donor','other') NOT NULL DEFAULT 'member',
+  `user_identifier` varchar(100) DEFAULT NULL COMMENT 'Member ID / Employee Code / Volunteer Reg ID',
+  `name` varchar(100) NOT NULL,
+  `contact` varchar(50) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `department` varchar(100) DEFAULT NULL,
+  `category` varchar(80) NOT NULL DEFAULT 'general_suggestion',
+  `rating` tinyint(4) NOT NULL DEFAULT 5,
+  `subject` varchar(255) NOT NULL,
+  `message` text NOT NULL,
+  `is_anonymous` tinyint(1) NOT NULL DEFAULT 0,
+  `status` enum('pending','under_review','action_taken','closed') NOT NULL DEFAULT 'pending',
+  `priority` enum('low','medium','high') NOT NULL DEFAULT 'medium',
+  `admin_reply` text DEFAULT NULL,
+  `reply_by` int(11) DEFAULT NULL,
+  `replied_at` datetime DEFAULT NULL,
+  `resolved_at` datetime DEFAULT NULL,
+  `attachment_path` varchar(255) DEFAULT NULL,
+  `user_ip` varchar(45) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `feedbacks`
+--
+
+INSERT INTO `feedbacks` (`id`, `feedback_no`, `submitter_type`, `user_identifier`, `name`, `contact`, `email`, `department`, `category`, `rating`, `subject`, `message`, `is_anonymous`, `status`, `priority`, `admin_reply`, `reply_by`, `replied_at`, `resolved_at`, `attachment_path`, `user_ip`, `created_at`, `updated_at`) VALUES
+(1, 'FB-2026-0001', 'employee', 'EMP-OPS-102', 'Ramesh Sharma', '+91 9876543210', 'ramesh.sharma@velnixsoft.com', 'Field Operations', 'workplace_environment', 4, 'Field Kit & Digital Tablet Update Request', 'Our rural survey team requires updated digital tablets with offline form caching so that beneficiary entries in low-network regions sync smoothly.', 0, 'action_taken', 'high', 'Approved by Management. 10 new high-battery tablets with offline sync have been dispatched to District Coordinators.', NULL, NULL, NULL, NULL, NULL, '2026-09-08 09:58:25', NULL),
+(2, 'FB-2026-0002', 'member', 'MEM-2026-8841', 'Pooja Verma', '+91 9823456781', 'pooja.verma@example.com', 'Community Health', 'program_execution', 5, 'Commendable Medical Camp at Basti Division', 'The free health checkup and medicine distribution camp was exceptionally organized. We suggest organizing such camps bi-monthly.', 0, 'closed', 'medium', 'Thank you for your valuable appreciation. We have scheduled the next follow-up health camp for next month.', NULL, NULL, NULL, NULL, NULL, '2026-09-10 09:58:25', NULL),
+(3, 'FB-2026-0003', 'volunteer', 'VOL-7721', 'Ankit Tripathi', '+91 9765432190', 'ankit.volunteer@gmail.com', 'Youth Programs', 'training_guidance', 5, 'Pre-Event Briefing & ID Badges Delivery', 'Volunteers enjoyed the tree plantation drive. It would be helpful if digital ID badges and task sheets are emailed 24 hours prior to future events.', 0, 'under_review', 'medium', 'Noted Ankit! The Event Coordination wing has automated 24-hour pre-event digital kit dispatches.', NULL, NULL, NULL, NULL, NULL, '2026-09-11 09:58:25', NULL),
+(4, 'FB-2026-0004', 'employee', 'EMP-ACC-04', 'Anonymous Staff Member', NULL, NULL, 'Accounts & Finance', 'compensation_benefits', 4, 'Suggestions for Annual Health Checkup Reimbursement', 'Requesting clarity on the process for OPD and diagnostic test reimbursements under the updated staff health policy.', 1, 'pending', 'medium', NULL, NULL, NULL, NULL, NULL, NULL, '2026-09-12 09:58:25', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `field_agents`
 --
 
@@ -603,6 +1001,153 @@ INSERT INTO `gallery` (`id`, `title`, `type`, `file_path`, `created_at`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `healthcare_providers`
+--
+
+CREATE TABLE `healthcare_providers` (
+  `id` int(11) NOT NULL,
+  `provider_code` varchar(50) NOT NULL,
+  `name` varchar(200) NOT NULL,
+  `type` enum('hospital','clinic','pathology_lab','pharmacy','doctor') NOT NULL DEFAULT 'hospital',
+  `speciality` enum('eye','dental','other') NOT NULL DEFAULT 'other',
+  `speciality_custom` varchar(150) DEFAULT NULL,
+  `contact_person` varchar(120) DEFAULT NULL,
+  `contact` varchar(50) NOT NULL,
+  `alternate_contact` varchar(50) DEFAULT NULL,
+  `email` varchar(150) DEFAULT NULL,
+  `website` varchar(255) DEFAULT NULL,
+  `state` varchar(100) NOT NULL,
+  `district` varchar(100) NOT NULL,
+  `block` varchar(100) DEFAULT NULL,
+  `pincode` varchar(10) DEFAULT NULL,
+  `address` text NOT NULL,
+  `landmark` varchar(255) DEFAULT NULL,
+  `map_location` varchar(500) DEFAULT NULL COMMENT 'Google Maps URL or Link',
+  `latitude` decimal(10,8) DEFAULT NULL COMMENT 'Latitude',
+  `longitude` decimal(11,8) DEFAULT NULL COMMENT 'Longitude',
+  `map_embed_url` text DEFAULT NULL COMMENT 'Map Embed Iframe URL',
+  `photo` varchar(255) DEFAULT NULL,
+  `timing` varchar(255) DEFAULT NULL,
+  `emergency_available` tinyint(1) NOT NULL DEFAULT 0,
+  `discount_offered` varchar(255) DEFAULT NULL,
+  `services_offered` text DEFAULT NULL,
+  `remarks` text DEFAULT NULL,
+  `status` enum('active','inactive','pending_approval') NOT NULL DEFAULT 'active',
+  `is_verified` tinyint(1) NOT NULL DEFAULT 1,
+  `created_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `healthcare_providers`
+--
+
+INSERT INTO `healthcare_providers` (`id`, `provider_code`, `name`, `type`, `speciality`, `speciality_custom`, `contact_person`, `contact`, `alternate_contact`, `email`, `website`, `state`, `district`, `block`, `pincode`, `address`, `landmark`, `map_location`, `latitude`, `longitude`, `map_embed_url`, `photo`, `timing`, `emergency_available`, `discount_offered`, `services_offered`, `remarks`, `status`, `is_verified`, `created_by`, `created_at`, `updated_at`) VALUES
+(1, 'HCP-2026-0001', 'Drishti Eye & Retina Super Speciality Hospital', 'hospital', 'eye', 'Cataract & Retina Care', 'Dr. Alok Verma (MS Ophthal)', '+91 98765 43210', '+91 98765 43211', 'info@drishtieye.org', NULL, 'Delhi', 'New Delhi', 'Connaught Place', '110001', 'Plot 14, Health Park, Barakhamba Road', 'Near Metro Gate No 3', 'https://maps.google.com/?q=28.628929,77.221532', 28.62892900, 77.22153200, 'https://maps.google.com/maps?q=28.628929,77.221532&hl=en&z=15&output=embed', NULL, 'Mon - Sat: 08:30 AM - 07:30 PM', 1, '100% Free Cataract Surgery for BPL Card Holders & 30% Off for Senior Citizens', 'Free Eye Checkup Camps, Phacoemulsification, Glaucoma screening, Diabetic Retinopathy, Spectacle distribution', 'Official partner hospital for NGO rural eye care missions.', 'active', 1, NULL, '2026-09-12 08:47:37', '2026-09-12 10:17:58'),
+(2, 'HCP-2026-0002', 'SmileCare Advanced Dental Clinic & Implant Center', 'clinic', 'dental', 'Orthodontics & Implants', 'Dr. Neha Sharma (BDS, MDS)', '+91 98111 22334', '+91 98111 22335', 'care@smilecaredental.com', NULL, 'Uttar Pradesh', 'Lucknow', 'Hazratganj', '226001', 'Shop 5-6, City Centre Mall, MG Marg', 'Opposite Gandhi Ashram', 'https://maps.google.com/?q=26.8467088,80.946166', 26.84670880, 80.94616600, 'https://maps.google.com/maps?q=26.8467088,80.946166&hl=en&z=15&output=embed', NULL, 'Mon - Sat: 10:00 AM - 08:00 PM', 0, 'Free Dental Consultation & 50% discount on Root Canal (RCT) & Scaling', 'Dental Scaling, Root Canal Treatment, Tooth Extractions, Pediatric Dental Care, Dentures', 'Equipped with modern digital RVG X-ray unit.', 'active', 1, NULL, '2026-09-12 08:47:37', '2026-09-12 10:17:58'),
+(3, 'HCP-2026-0003', 'Apex Diagnostics & Pathology Center', 'pathology_lab', 'other', 'Advanced Diagnostic & Biochemistry', 'Dr. Rajesh Gupta (MD Path)', '+91 99222 33445', '+91 99222 33446', 'lab@apexdiagnostics.in', NULL, 'Maharashtra', 'Mumbai Suburban', 'Andheri East', '400069', 'Building 2, Metro Plaza, Andheri-Kurla Road', 'Beside Western Express Highway Metro', 'https://maps.google.com/?q=19.113645,72.869734', 19.11364500, 72.86973400, 'https://maps.google.com/maps?q=19.113645,72.869734&hl=en&z=15&output=embed', NULL, '24x7 Open (Emergency Sample Collection)', 1, '40% flat discount on all Blood Profiles, Thyroid, Diabetes & Lipid Tests for NGO Referrals', 'CBC, HbA1c, Liver Function Test (LFT), Kidney Function Test (KFT), Digital X-Ray, ECG, Ultrasound', 'NABL Accredited Laboratory with automated analyzers.', 'active', 1, NULL, '2026-09-12 08:47:37', '2026-09-12 10:17:58'),
+(4, 'HCP-2026-0004', 'Jan Aushadhi Seva Pharmacy', 'pharmacy', 'other', 'Generic & Essential Medicines', 'Manoj Kumar (D.Pharm)', '+91 97333 44556', NULL, 'janaushadhi.care@gmail.com', NULL, 'Bihar', 'Patna', 'Kankarbagh', '800020', 'Main Road, Near Old Bus Stand, Kankarbagh', 'Near State Bank ATM', 'https://maps.google.com/?q=25.594095,85.137566', 25.59409500, 85.13756600, 'https://maps.google.com/maps?q=25.594095,85.137566&hl=en&z=15&output=embed', NULL, 'All 7 Days: 08:00 AM - 10:00 PM', 0, 'Up to 70-80% savings on generic critical medicines & free BP/Sugar check', 'Essential Antibiotics, Cardiac & Diabetes Care, Pediatric syrups, Ortho aids, First Aid Kits', 'Authorized Jan Aushadhi generic dispensary partner.', 'active', 1, NULL, '2026-09-12 08:47:37', '2026-09-12 10:17:58'),
+(5, 'HCP-2026-0005', 'Dr. Arvind Mehra (General Physician & Cardiologist)', 'doctor', 'other', 'Internal Medicine & Cardiology', 'Dr. Arvind Mehra (MD Medicine)', '+91 96444 55667', NULL, 'dr.mehra@cliniccare.in', NULL, 'Rajasthan', 'Jaipur', 'Malviya Nagar', '302017', 'Clinic No 12, Health Square, Calgiri Marg', 'Opposite Fortis Hospital', 'https://maps.google.com/?q=26.912434,75.787271', 26.91243400, 75.78727100, 'https://maps.google.com/maps?q=26.912434,75.787271&hl=en&z=15&output=embed', NULL, 'Mon - Fri: 04:00 PM - 08:00 PM', 0, 'Free Consultation for Underprivileged Patients referred by NGO', 'Hypertension management, Diabetes screening, ECG interpretation, Preventative cardiac consultation', 'Available for weekend rural medical camps.', 'active', 1, NULL, '2026-09-12 08:47:37', '2026-09-12 10:17:58');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `healthcare_referrals`
+--
+
+CREATE TABLE `healthcare_referrals` (
+  `id` int(11) NOT NULL,
+  `referral_no` varchar(50) NOT NULL,
+  `provider_id` int(11) NOT NULL,
+  `beneficiary_id` int(11) DEFAULT NULL,
+  `patient_name` varchar(150) NOT NULL,
+  `patient_contact` varchar(50) NOT NULL,
+  `patient_age` int(11) DEFAULT NULL,
+  `patient_gender` enum('Male','Female','Other') DEFAULT NULL,
+  `problem_description` text DEFAULT NULL,
+  `appointment_date` date NOT NULL,
+  `status` enum('scheduled','completed','cancelled','no_show') NOT NULL DEFAULT 'scheduled',
+  `doctor_remarks` text DEFAULT NULL,
+  `discount_availed` decimal(10,2) DEFAULT 0.00,
+  `created_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `healthcare_services`
+--
+
+CREATE TABLE `healthcare_services` (
+  `id` int(11) NOT NULL,
+  `provider_id` int(11) NOT NULL,
+  `service_name` varchar(200) NOT NULL,
+  `category` varchar(100) NOT NULL DEFAULT 'Consultation',
+  `standard_fee` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `discounted_fee` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `is_free_for_bpl` tinyint(1) NOT NULL DEFAULT 0,
+  `status` enum('active','inactive') NOT NULL DEFAULT 'active',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `health_cards`
+--
+
+CREATE TABLE `health_cards` (
+  `id` int(11) NOT NULL,
+  `card_number` varchar(50) NOT NULL,
+  `previous_card_number` varchar(50) DEFAULT NULL,
+  `applicant_name` varchar(150) NOT NULL,
+  `contact` varchar(50) NOT NULL,
+  `email` varchar(150) DEFAULT NULL,
+  `dob` date DEFAULT NULL,
+  `age` int(11) DEFAULT NULL,
+  `gender` enum('Male','Female','Other') NOT NULL DEFAULT 'Male',
+  `blood_group` varchar(10) DEFAULT NULL,
+  `aadhaar_no` varchar(20) DEFAULT NULL,
+  `emergency_contact` varchar(50) DEFAULT NULL,
+  `state` varchar(100) DEFAULT NULL,
+  `district` varchar(100) DEFAULT NULL,
+  `block` varchar(100) DEFAULT NULL,
+  `pincode` varchar(10) DEFAULT NULL,
+  `address` text NOT NULL,
+  `photo` varchar(255) DEFAULT NULL,
+  `issue_date` date NOT NULL,
+  `expiry_date` date NOT NULL,
+  `status` enum('pending_approval','active','expired','renewed','rejected','blocked') NOT NULL DEFAULT 'pending_approval',
+  `beneficiary_id` int(11) DEFAULT NULL,
+  `member_id` int(11) DEFAULT NULL,
+  `qr_code_path` varchar(255) DEFAULT NULL,
+  `pdf_path` varchar(255) DEFAULT NULL,
+  `remarks` text DEFAULT NULL,
+  `issued_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `health_cards`
+--
+
+INSERT INTO `health_cards` (`id`, `card_number`, `previous_card_number`, `applicant_name`, `contact`, `email`, `dob`, `age`, `gender`, `blood_group`, `aadhaar_no`, `emergency_contact`, `state`, `district`, `block`, `pincode`, `address`, `photo`, `issue_date`, `expiry_date`, `status`, `beneficiary_id`, `member_id`, `qr_code_path`, `pdf_path`, `remarks`, `issued_by`, `created_at`, `updated_at`) VALUES
+(1, 'HC-2026-0001', NULL, 'Ramesh Kumar Verma', '+91 98765 11223', 'ramesh.verma@example.com', '1982-05-14', 44, 'Male', 'B+', 'XXXX-XXXX-4512', '+91 98765 11224', 'Uttar Pradesh', 'Lucknow', 'Hazratganj', '226001', 'House No. 45, Sector 4, Vikas Nagar', NULL, '2026-01-10', '2027-01-09', 'active', NULL, NULL, NULL, NULL, 'Eligible for 100% Free Cataract Surgery and OPD Subsidies.', NULL, '2026-09-12 08:56:01', NULL),
+(2, 'HC-2026-0002', NULL, 'Sunita Devi Sharma', '+91 98111 55667', 'sunita.sharma@example.com', '1990-08-22', 36, 'Female', 'O+', 'XXXX-XXXX-8921', '+91 98111 55668', 'Delhi', 'New Delhi', 'Connaught Place', '110001', 'Flat 12B, Barakhamba Lane', NULL, '2026-02-15', '2027-02-14', 'active', NULL, NULL, NULL, NULL, 'BPL Card Holder - Free generic medicines from partner Jan Aushadhi pharmacy.', NULL, '2026-09-12 08:56:01', NULL),
+(3, 'HC-2026-0003', NULL, 'Mohammad Imran Sheikh', '+91 99222 77889', 'imran.sheikh@example.com', '1975-11-03', 51, 'Male', 'AB+', 'XXXX-XXXX-3341', '+91 99222 77890', 'Maharashtra', 'Mumbai Suburban', 'Andheri East', '400069', 'Plot 88, Metro Nagar, Kurla Road', NULL, '2025-01-01', '2026-01-01', 'expired', NULL, NULL, NULL, NULL, 'Card expired. Renewal application pending.', NULL, '2026-09-12 08:56:01', NULL),
+(6, 'HC-2026-0004', NULL, 'Ramesh Kumar Sharma', '9876543210', 'ramesh.sharma@example.com', '1988-05-14', NULL, 'Male', 'B+', NULL, NULL, 'Bihar', 'Patna', 'Patna Sadar', NULL, 'House 45, Gandhi Nagar, Patna', NULL, '2026-09-12', '2027-09-12', 'active', NULL, NULL, 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=http%3A%2F%2Flocalhost%2Fverify-health-card.php%3Fcard%3DHC-2026-0004', 'uploads/health_cards/Health_Card_HC-2026-0004_1789204012.pdf', 'Approved during test', NULL, '2026-09-12 09:06:52', '2026-09-12 09:06:53'),
+(7, '', NULL, 'Sunita Verma', '9123456780', 'sunita@example.com', NULL, NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, '0000-00-00', '0000-00-00', 'rejected', NULL, NULL, NULL, NULL, 'Invalid proof of identity', NULL, '2026-09-12 09:06:53', '2026-09-12 09:06:53'),
+(8, 'HC-2025-9999', NULL, 'Vikramaditya Singh', '9876500001', 'vikram@example.com', '1985-06-20', 41, 'Male', 'O+', 'XXXX-XXXX-9999', '9876500002', 'Madhya Pradesh', 'Bhopal', 'Huzur', '462001', 'B-12, Arera Colony, Bhopal', NULL, '2025-01-01', '2026-01-01', 'renewed', NULL, NULL, NULL, NULL, 'Initial annual issue', NULL, '2026-09-12 09:11:13', '2026-09-12 09:11:13'),
+(9, 'HC-2026-0005', 'HC-2025-9999', 'Vikramaditya Singh', '9876500001', 'vikram@example.com', '1985-06-20', 41, 'Male', 'O+', 'XXXX-XXXX-9999', '9876500002', 'Madhya Pradesh', 'Bhopal', 'Huzur', '462001', 'B-12, Arera Colony, Bhopal', NULL, '2026-09-12', '2027-09-12', 'active', NULL, NULL, 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=http%3A%2F%2Flocalhost%2Fverify-health-card.php%3Fcard%3DHC-2026-0005', 'uploads/health_cards/Health_Card_HC-2026-0005_1789204273.pdf', 'Renewal application for previous Health Card: HC-2025-9999', NULL, '2026-09-12 09:11:13', '2026-09-12 09:11:15');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `health_programs`
 --
 
@@ -625,6 +1170,44 @@ INSERT INTO `health_programs` (`id`, `title`, `description`, `image`, `category`
 (1, 'Free Medical & Diagnostic Camp', 'Comprehensive healthcare camps providing free health checkups, blood tests, sugar tests, and consultations with qualified doctors for the general public.', 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=600&auto=format&fit=crop', 'Medical Camp', 'Active', '2026-08-21 07:57:26', '2026-08-21 07:57:26'),
 (2, 'Mental Health & Stress Seminars', 'Interactive mental wellbeing and stress management sessions held in local colleges and communities to eliminate stigma and teach positive coping tools.', 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=600&auto=format&fit=crop', 'Mental Health', 'Active', '2026-08-21 07:57:26', '2026-08-21 07:57:26'),
 (3, 'Women Hygiene & Health Drive', 'Special awareness campaigns focused on women health, nutrition, sanitisation practices, and distribution of wellness kits to underprivileged areas.', 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=600&auto=format&fit=crop', 'Women Wellness', 'Active', '2026-08-21 07:57:26', '2026-08-21 07:57:26');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hr_policies`
+--
+
+CREATE TABLE `hr_policies` (
+  `id` int(11) NOT NULL,
+  `policy_code` varchar(50) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `category` enum('code_of_conduct','posh_gender','child_safeguarding','leave_benefits','whistleblower','travel_compensation','volunteer_ethics','general') NOT NULL DEFAULT 'code_of_conduct',
+  `category_custom` varchar(100) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `content_html` longtext DEFAULT NULL,
+  `file_path` varchar(255) DEFAULT NULL,
+  `file_size` varchar(50) DEFAULT NULL,
+  `policy_version` varchar(20) DEFAULT 'v1.0',
+  `effective_date` date DEFAULT NULL,
+  `review_date` date DEFAULT NULL,
+  `is_public` tinyint(1) NOT NULL DEFAULT 1,
+  `sort_order` int(11) NOT NULL DEFAULT 0,
+  `created_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `hr_policies`
+--
+
+INSERT INTO `hr_policies` (`id`, `policy_code`, `title`, `category`, `category_custom`, `description`, `content_html`, `file_path`, `file_size`, `policy_version`, `effective_date`, `review_date`, `is_public`, `sort_order`, `created_by`, `created_at`, `updated_at`) VALUES
+(1, 'HRP-COC-01', 'Code of Conduct & Workplace Professional Ethics', 'code_of_conduct', NULL, 'Establishes standards of honesty, integrity, gender sensitivity, conflict of interest, anti-discrimination, and respectful behavior for all NGO employees, interns, and field associates.', NULL, 'uploads/documents/sample_code_of_conduct.pdf', '1.2 MB', 'v2.1', '2026-01-01', NULL, 1, 1, NULL, '2026-09-12 09:54:07', '2026-09-12 09:54:07'),
+(2, 'HRP-POSH-02', 'Prevention of Sexual Harassment (POSH) & Gender Safety Policy', 'posh_gender', NULL, 'Mandated by the POSH Act 2013; provides zero-tolerance framework against harassment, Internal Complaints Committee (ICC) redressal mechanisms, and confidential reporting channels for all female staff and volunteers.', NULL, 'uploads/documents/sample_posh_policy.pdf', '980 KB', 'v2.0', '2026-01-15', NULL, 1, 2, NULL, '2026-09-12 09:54:07', '2026-09-12 09:54:07'),
+(3, 'HRP-CSG-03', 'Child Protection & Safeguarding (PSEA) Framework', 'child_safeguarding', NULL, 'Rigorous protocols for safeguarding vulnerable children, beneficiaries, and adolescent students during field operations, medical camps, and education programs against abuse and exploitation.', NULL, 'uploads/documents/sample_child_safeguarding.pdf', '1.5 MB', 'v1.8', '2026-02-01', NULL, 1, 3, NULL, '2026-09-12 09:54:07', '2026-09-12 09:54:07'),
+(4, 'HRP-LEV-04', 'Staff Leave, Working Hours, Health & Social Benefits Policy', 'leave_benefits', NULL, 'Governs casual leave, earned leave, maternity/paternity support, medical benefits, Swasthya Card coverage, provident fund compliance, and remote field work allowances.', NULL, 'uploads/documents/sample_leave_policy.pdf', '850 KB', 'v2.0', '2026-01-01', NULL, 1, 4, NULL, '2026-09-12 09:54:07', '2026-09-12 09:54:07'),
+(5, 'HRP-WB-05', 'Whistleblower, Anti-Bribery & Fraud Reporting Policy', 'whistleblower', NULL, 'Encourages employees, donors, and stakeholders to confidentially report financial fraud, corruption, or procedural non-compliance without fear of retaliation or victimization.', NULL, 'uploads/documents/sample_whistleblower.pdf', '720 KB', 'v1.2', '2026-03-01', NULL, 1, 5, NULL, '2026-09-12 09:54:07', '2026-09-12 09:54:07'),
+(6, 'HRP-TRV-06', 'Field Travel Allowance & Expense Reimbursement Norms', 'travel_compensation', NULL, 'Sets transparent per diem rates, travel booking guidelines, fuel reimbursements for field coordinators, and audit requirements for grassroots tours.', NULL, 'uploads/documents/sample_travel_policy.pdf', '640 KB', 'v1.1', '2026-02-15', NULL, 1, 6, NULL, '2026-09-12 09:54:07', '2026-09-12 09:54:07');
 
 -- --------------------------------------------------------
 
@@ -654,6 +1237,248 @@ CREATE TABLE `inquiries` (
 INSERT INTO `inquiries` (`id`, `submitter_name`, `submitter_email`, `submitter_phone`, `member_id`, `problem_description`, `category`, `urgency`, `attachment_path`, `status`, `admin_notes`, `created_at`) VALUES
 (4, 'anuj upadhyay', 'anujbca2022@gmail.com', '7570032407', NULL, 'that i have problem certificate', 'membership', 'urgent', '../uploads/inquiries/inquiry_1777458728_d6a5debee28b7b43.jpeg', 'New', NULL, '2026-04-29 10:32:08'),
 (5, 'Abhishek Kumar', 'panditabhishek9651@gmail.com', '9651826737', NULL, 'Mere sath proble ho rahi hai', 'membership', 'normal', NULL, 'New', NULL, '2026-08-21 10:16:34');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `item_donations`
+--
+
+CREATE TABLE `item_donations` (
+  `id` int(11) NOT NULL,
+  `donation_code` varchar(50) DEFAULT NULL,
+  `category_id` int(11) NOT NULL,
+  `donor_id` int(11) DEFAULT NULL,
+  `donor_name` varchar(100) NOT NULL,
+  `donor_email` varchar(100) NOT NULL,
+  `donor_mobile` varchar(20) NOT NULL,
+  `donor_pan` varchar(20) DEFAULT NULL,
+  `donor_address` text DEFAULT NULL,
+  `pickup_city` varchar(100) DEFAULT NULL,
+  `pickup_pincode` varchar(10) DEFAULT NULL,
+  `pickup_address` text DEFAULT NULL,
+  `item_description` text NOT NULL,
+  `quantity` decimal(10,2) NOT NULL DEFAULT 1.00,
+  `unit` varchar(30) NOT NULL DEFAULT 'pcs',
+  `estimated_value` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `condition_type` enum('New','Gently Used','Refurbished','Usable') NOT NULL DEFAULT 'New',
+  `donation_date` date NOT NULL,
+  `status` enum('Pledged','Scheduled For Pickup','Collected','In Warehouse','Distributed','Cancelled') NOT NULL DEFAULT 'Pledged',
+  `project_id` int(11) DEFAULT NULL,
+  `receipt_no` varchar(50) DEFAULT NULL,
+  `field_agent_id` int(11) DEFAULT NULL,
+  `sa_student_id` int(11) DEFAULT NULL,
+  `referral_code` varchar(40) DEFAULT NULL,
+  `item_photo` varchar(255) DEFAULT NULL,
+  `remarks` text DEFAULT NULL,
+  `verified_by` int(11) DEFAULT NULL,
+  `verified_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `item_donation_categories`
+--
+
+CREATE TABLE `item_donation_categories` (
+  `id` int(11) NOT NULL,
+  `category_name` varchar(100) NOT NULL,
+  `category_slug` varchar(100) NOT NULL,
+  `category_icon` varchar(100) DEFAULT 'fa-box',
+  `description` text DEFAULT NULL,
+  `unit_suggestions` varchar(255) DEFAULT 'pcs, kg, boxes, sets, pairs, packets',
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `display_order` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `item_donation_categories`
+--
+
+INSERT INTO `item_donation_categories` (`id`, `category_name`, `category_slug`, `category_icon`, `description`, `unit_suggestions`, `is_active`, `display_order`, `created_at`, `updated_at`) VALUES
+(1, 'Clothes', 'clothes', 'fa-shirt', 'Men, women, and children clothing, winter wear, and daily apparel', 'pcs, pairs, boxes, sets', 1, 1, '2026-09-12 06:21:42', NULL),
+(2, 'Ration', 'ration', 'fa-bowl-rice', 'Dry ration kits, rice, wheat, pulses, cooking oil, spices', 'kg, packets, kits, boxes', 1, 2, '2026-09-12 06:21:42', NULL),
+(3, 'Books', 'books', 'fa-book-open', 'Educational books, school textbooks, notebooks, reference guides, storybooks', 'pcs, sets, boxes', 1, 3, '2026-09-12 06:21:42', NULL),
+(4, 'Medicines', 'medicines', 'fa-pills', 'First-aid supplies, unexpired prescription & OTC medicines, medical disposables', 'boxes, strips, bottles, units', 1, 4, '2026-09-12 06:21:42', NULL),
+(5, 'Stationery', 'stationery', 'fa-pen-ruler', 'Pens, pencils, notebooks, school bags, geometry boxes, art materials', 'pcs, sets, packets, boxes', 1, 5, '2026-09-12 06:21:42', NULL),
+(6, 'Blankets', 'blankets', 'fa-bed', 'Warm winter blankets, quilts, bedsheets, woollen shawls', 'pcs, bundles', 1, 6, '2026-09-12 06:21:42', NULL),
+(7, 'Wheelchairs', 'wheelchairs', 'fa-wheelchair', 'Wheelchairs, walking sticks, crutches, physical mobility & assistive aids', 'pcs, units', 1, 7, '2026-09-12 06:21:42', NULL),
+(8, 'Food Materials', 'food-materials', 'fa-apple-whole', 'Prepared fresh meal packets, fruits, dry snacks, packaged drinking water', 'packets, boxes, kg, meals', 1, 8, '2026-09-12 06:21:42', NULL),
+(9, 'Others', 'others', 'fa-box-open', 'Toys, electronics, appliances, furniture, and general utility items', 'pcs, units, sets', 1, 9, '2026-09-12 06:21:42', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `job_applications`
+--
+
+CREATE TABLE `job_applications` (
+  `id` int(11) NOT NULL,
+  `application_no` varchar(50) NOT NULL,
+  `job_id` int(11) NOT NULL,
+  `applicant_name` varchar(150) NOT NULL,
+  `contact` varchar(50) NOT NULL,
+  `email` varchar(150) DEFAULT NULL,
+  `gender` enum('Male','Female','Other') NOT NULL DEFAULT 'Male',
+  `dob` date DEFAULT NULL,
+  `age` int(11) DEFAULT NULL,
+  `qualification` varchar(150) DEFAULT NULL,
+  `experience_years` decimal(4,1) DEFAULT 0.0,
+  `current_city` varchar(100) DEFAULT NULL,
+  `state` varchar(100) DEFAULT NULL,
+  `district` varchar(100) DEFAULT NULL,
+  `address` text DEFAULT NULL,
+  `resume_path` varchar(255) NOT NULL,
+  `cover_letter` text DEFAULT NULL,
+  `status` enum('pending','reviewed','shortlisted','interview_scheduled','selected','rejected') NOT NULL DEFAULT 'pending',
+  `applied_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `interview_date` datetime DEFAULT NULL,
+  `interview_venue` varchar(255) DEFAULT NULL,
+  `admin_notes` text DEFAULT NULL,
+  `reviewed_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `job_applications`
+--
+
+INSERT INTO `job_applications` (`id`, `application_no`, `job_id`, `applicant_name`, `contact`, `email`, `gender`, `dob`, `age`, `qualification`, `experience_years`, `current_city`, `state`, `district`, `address`, `resume_path`, `cover_letter`, `status`, `applied_date`, `interview_date`, `interview_venue`, `admin_notes`, `reviewed_by`, `created_at`, `updated_at`) VALUES
+(1, 'APP-2026-0001', 1, 'Amitabh Sharma', '9876543210', 'amitabh.sharma@example.com', 'Male', '1992-04-15', 34, 'Master of Social Work (MSW)', 4.5, 'Lucknow', 'Uttar Pradesh', 'Lucknow', 'Plot 45, Aliganj, Lucknow, UP', 'uploads/resumes/sample_resume.pdf', 'I have 4+ years of experience in rural development and grassroots project coordination.', 'reviewed', '2026-09-11 05:00:00', NULL, NULL, NULL, NULL, '2026-09-12 09:23:16', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `job_openings`
+--
+
+CREATE TABLE `job_openings` (
+  `id` int(11) NOT NULL,
+  `job_code` varchar(50) NOT NULL,
+  `title` varchar(200) NOT NULL,
+  `category` enum('state_coordinator','district_coordinator','block_coordinator','panchayat_coordinator','other') NOT NULL DEFAULT 'other',
+  `category_custom` varchar(150) DEFAULT NULL,
+  `description` text NOT NULL,
+  `requirements` text DEFAULT NULL,
+  `responsibilities` text DEFAULT NULL,
+  `location` varchar(150) NOT NULL,
+  `state` varchar(100) DEFAULT NULL,
+  `district` varchar(100) DEFAULT NULL,
+  `block` varchar(100) DEFAULT NULL,
+  `openings_count` int(11) NOT NULL DEFAULT 1,
+  `salary_range` varchar(100) DEFAULT NULL,
+  `job_type` enum('Full-time','Part-time','Contract','Internship','Volunteer') NOT NULL DEFAULT 'Full-time',
+  `experience_required` varchar(100) DEFAULT NULL,
+  `min_qualification` varchar(150) DEFAULT NULL,
+  `status` enum('active','inactive','closed','draft') NOT NULL DEFAULT 'active',
+  `posted_date` date NOT NULL,
+  `last_date` date DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `job_openings`
+--
+
+INSERT INTO `job_openings` (`id`, `job_code`, `title`, `category`, `category_custom`, `description`, `requirements`, `responsibilities`, `location`, `state`, `district`, `block`, `openings_count`, `salary_range`, `job_type`, `experience_required`, `min_qualification`, `status`, `posted_date`, `last_date`, `created_by`, `created_at`, `updated_at`) VALUES
+(1, 'JOB-2026-0001', 'State Program Coordinator', 'state_coordinator', NULL, 'Lead state-level development programs, manage district coordinators, liaise with government departments and partner NGOs for community health, education, and livelihood projects.', 'Strong leadership skills, proficiency in Hindi & English, experience in NGO/CSR project management, willingness to travel across districts.', 'Supervise district coordinators, monitor KPIs, submit monthly impact reports, organize state level review meetings.', 'State Head Office, Lucknow', 'Uttar Pradesh', 'Lucknow', NULL, 2, '₹35,000 - ₹50,000 / month', 'Full-time', '3-5 Years in NGO/Rural Dev', 'Post Graduate / MSW / MBA', 'active', '2026-09-01', '2026-10-31', NULL, '2026-09-12 09:23:16', NULL),
+(2, 'JOB-2026-0002', 'District Operations Coordinator', 'district_coordinator', NULL, 'Oversee block level coordinators, execute health card drives, coordinate with empaneled hospitals, and manage volunteer activities across the district.', 'Good communication skills, local district knowledge, basic computer skills (MS Excel/Google Sheets), two-wheeler with valid license.', 'Onboard healthcare partners, organize health & donation camps, supervise block coordinators, verify beneficiary applications.', 'Patna District Office', 'Bihar', 'Patna', NULL, 5, '₹22,000 - ₹30,000 / month', 'Full-time', '1-3 Years in Field Operations', 'Graduate / BSW / Any Degree', 'active', '2026-09-05', '2026-10-25', NULL, '2026-09-12 09:23:16', NULL),
+(3, 'JOB-2026-0003', 'Block Field Coordinator', 'block_coordinator', NULL, 'Grassroots coordinator responsible for panchayat outreach, beneficiary identification, swasthya health card enrollments, and organizing village meetings.', 'Active community presence, excellent interpersonal skills, mobile app handling skills.', 'Conduct door-to-door awareness, coordinate with Gram Pradhans, enroll citizens for health cards, report to district coordinator.', 'Varanasi Sadar Block', 'Uttar Pradesh', 'Varanasi', NULL, 12, '₹15,000 - ₹20,000 / month', 'Full-time', '0-2 Years / Freshers Welcome', '12th Pass / Graduate', 'active', '2026-09-08', '2026-11-15', NULL, '2026-09-12 09:23:16', NULL),
+(4, 'JOB-2026-0004', 'Gram Panchayat Mobilizer & Coordinator', 'panchayat_coordinator', NULL, 'Village level representative to assist villagers in emergency health assistance, grievance logging, and NGO welfare initiatives.', 'Resident of local gram panchayat, trusted by community, basic smartphone usage.', 'Panchayat level awareness, distribution of health cards, guiding beneficiaries to network hospitals.', 'Gram Panchayat Level (Multi-location)', 'Madhya Pradesh', 'Bhopal', NULL, 25, '₹8,000 - ₹12,000 / month + Incentives', 'Contract', 'Fresher / Community Worker', '10th / 12th Pass', 'active', '2026-09-10', '2026-11-30', NULL, '2026-09-12 09:23:16', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `join_applications`
+--
+
+CREATE TABLE `join_applications` (
+  `id` int(11) NOT NULL,
+  `application_no` varchar(60) NOT NULL,
+  `applicant_name` varchar(150) NOT NULL,
+  `contact` varchar(50) NOT NULL,
+  `email` varchar(150) DEFAULT NULL,
+  `state` varchar(100) DEFAULT NULL,
+  `district` varchar(100) DEFAULT NULL,
+  `application_type` enum('join_foundation','join_project','job_application') NOT NULL DEFAULT 'join_foundation',
+  `project_id` int(11) DEFAULT NULL,
+  `job_id` int(11) DEFAULT NULL,
+  `details` text DEFAULT NULL,
+  `fee_amount` decimal(10,2) DEFAULT NULL,
+  `payment_status` enum('pending','paid','exempted','failed','refunded') NOT NULL DEFAULT 'exempted',
+  `razorpay_order_id` varchar(100) DEFAULT NULL,
+  `razorpay_payment_id` varchar(100) DEFAULT NULL,
+  `razorpay_signature` varchar(255) DEFAULT NULL,
+  `payment_method` varchar(50) DEFAULT NULL,
+  `transaction_id` varchar(100) DEFAULT NULL,
+  `status` enum('pending','reviewed','approved','rejected','onboarded') NOT NULL DEFAULT 'pending',
+  `admin_notes` text DEFAULT NULL,
+  `reviewed_by` int(11) DEFAULT NULL,
+  `reviewed_at` datetime DEFAULT NULL,
+  `applied_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `join_applications`
+--
+
+INSERT INTO `join_applications` (`id`, `application_no`, `applicant_name`, `contact`, `email`, `state`, `district`, `application_type`, `project_id`, `job_id`, `details`, `fee_amount`, `payment_status`, `razorpay_order_id`, `razorpay_payment_id`, `razorpay_signature`, `payment_method`, `transaction_id`, `status`, `admin_notes`, `reviewed_by`, `reviewed_at`, `applied_date`, `created_at`, `updated_at`) VALUES
+(1, 'JOIN-2026-0001', 'Aarav Sharma', '9876543210', 'aarav.sharma@example.com', NULL, NULL, 'join_foundation', NULL, NULL, 'Interested in joining Jaysmrutti Foundation as an active community volunteer to support child education and healthcare awareness campaigns.', 500.00, 'paid', NULL, NULL, NULL, 'UPI', 'UPI98374291823', 'approved', 'Onboarding welcome packet sent.', 2, '2026-09-12 16:22:44', '2026-09-07 10:52:44', '2026-09-12 10:52:44', '2026-09-12 10:52:44'),
+(2, 'PROJ-JOIN-2026-0002', 'Priya Patel', '9812345678', 'priya.patel@example.com', NULL, NULL, 'join_project', 7, NULL, 'Want to volunteer for Project field operations in Lucknow district, focusing on rural healthcare and nutrition distribution.', NULL, 'exempted', NULL, NULL, NULL, 'Exempted', NULL, 'pending', 'Under project coordinator review.', NULL, NULL, '2026-09-10 10:52:44', '2026-09-12 10:52:44', '2026-09-12 10:52:44'),
+(3, 'JOB-APP-2026-0003', 'Vikram Singh', '9898989898', 'vikram.singh@example.com', NULL, NULL, 'job_application', NULL, 1, 'Applying for District Coordinator position. 5 years experience in NGO grassroots outreach and project reporting.', 100.00, 'paid', NULL, NULL, NULL, 'Razorpay', 'pay_K98xZy781923', 'reviewed', 'Shortlisted for telephone screening.', 2, '2026-09-12 16:22:44', '2026-09-11 10:52:44', '2026-09-12 10:52:44', '2026-09-12 10:52:44'),
+(4, 'JOIN-2026-0002', 'Aarav Sharma', '9876543210', 'aarav.sharma@example.com', 'Uttar Pradesh', 'Lucknow', 'join_foundation', NULL, NULL, 'Preferred Wing: Child Education & School Literacy | Want to volunteer on weekends', NULL, 'exempted', NULL, NULL, NULL, 'Exempted', NULL, 'pending', NULL, NULL, NULL, '2026-09-12 10:58:42', '2026-09-12 10:58:42', '2026-09-12 10:58:42'),
+(5, 'JOIN-2026-0003', 'Aarav Sharma', '9876543210', 'aarav.sharma@example.com', 'Uttar Pradesh', 'Lucknow', 'join_foundation', NULL, NULL, 'Preferred Wing: Child Education & School Literacy | Want to volunteer on weekends', NULL, 'exempted', NULL, NULL, NULL, 'Exempted', NULL, 'pending', NULL, NULL, NULL, '2026-09-12 10:58:55', '2026-09-12 10:58:55', '2026-09-12 10:58:55'),
+(6, 'PROJ-JOIN-2026-0003', 'Pooja Verma', '9123456780', 'pooja.verma@example.com', 'Uttar Pradesh', 'Varanasi', 'join_project', 16, NULL, 'Skills/Availability: Field Coordination & Tree Plantation, 8 hrs/week', NULL, 'exempted', NULL, NULL, NULL, 'Exempted', NULL, 'pending', NULL, NULL, NULL, '2026-09-12 10:58:55', '2026-09-12 10:58:55', '2026-09-12 10:58:55'),
+(7, 'JOB-APP-2026-0004', 'Rohan Singh', '9988776655', 'rohan.singh@example.com', 'Bihar', 'Patna', 'job_application', NULL, 4, 'Qualification: MSW | Experience: 3 Years | Resume: https://drive.google.com/resume.pdf', NULL, 'exempted', NULL, NULL, NULL, 'Exempted', NULL, 'pending', NULL, NULL, NULL, '2026-09-12 10:58:55', '2026-09-12 10:58:55', '2026-09-12 10:58:55'),
+(8, 'JOIN-2026-0004', 'Vikram Malhotra', '9765432109', 'vikram.malhotra@example.com', 'Delhi', 'New Delhi', 'join_foundation', NULL, NULL, 'Preferred Wing: Women Empowerment | Foundation Life Member Contribution', 500.00, 'paid', 'order_test_1789210735', 'pay_test_1789210735', 'e4085d73f44b0ca305deee3056325fb799e2ae6428ccfa712dc2b7cce978cc8e', 'Razorpay', 'pay_test_1789210735', 'approved', 'Verified by Coordination Officer during test run. Approved for induction.', 2, '2026-09-12 16:31:51', '2026-09-12 10:58:55', '2026-09-12 10:58:55', '2026-09-12 11:01:51');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `letters`
+--
+
+CREATE TABLE `letters` (
+  `id` int(11) NOT NULL,
+  `reference_no` varchar(100) DEFAULT NULL,
+  `letter_type` varchar(100) NOT NULL DEFAULT 'General Official Letter',
+  `subject` varchar(255) NOT NULL,
+  `content` longtext NOT NULL,
+  `recipient_name` varchar(255) NOT NULL,
+  `recipient_designation` varchar(255) DEFAULT NULL,
+  `recipient_organization` varchar(255) DEFAULT NULL,
+  `recipient_address` text DEFAULT NULL,
+  `recipient_email` varchar(150) DEFAULT NULL,
+  `recipient_phone` varchar(50) DEFAULT NULL,
+  `generated_date` date NOT NULL,
+  `generated_by` int(11) DEFAULT NULL,
+  `pdf_path` varchar(255) DEFAULT NULL,
+  `status` enum('Draft','Generated','Sent','Archived') NOT NULL DEFAULT 'Generated',
+  `signatory_name` varchar(150) DEFAULT NULL,
+  `signatory_designation` varchar(150) DEFAULT NULL,
+  `notes` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `letters`
+--
+
+INSERT INTO `letters` (`id`, `reference_no`, `letter_type`, `subject`, `content`, `recipient_name`, `recipient_designation`, `recipient_organization`, `recipient_address`, `recipient_email`, `recipient_phone`, `generated_date`, `generated_by`, `pdf_path`, `status`, `signatory_name`, `signatory_designation`, `notes`, `created_at`, `updated_at`) VALUES
+(4, 'JMF/LTR/2026/001', 'Appointment Letter', 'Official Appointment as Senior Outreach Coordinator', 'We are pleased to appoint you as Senior Outreach Coordinator at Jaysmrutti Foundation with effect from 15 January 2026.\n\nIn this capacity, you will oversee our regional health and nutrition assistance drives, volunteer mobilization, and coordination with community centers.\n\nWe look forward to your valuable contributions to our mission.', 'Dr. Rajesh Verma', 'Senior Outreach Coordinator', 'Jaysmrutti Foundation', 'Varanasi, Uttar Pradesh, India', 'rajesh.verma@example.com', '+91 9876543210', '2026-09-07', 2, NULL, 'Generated', 'Authorized Signatory', 'President / General Secretary', NULL, '2026-09-12 08:14:36', NULL),
+(5, 'JMF/LTR/2026/002', 'Appreciation Letter', 'Certificate & Letter of Commendable Philanthropic Support', 'On behalf of Jaysmrutti Foundation, we extend our heartfelt gratitude for your generous support and active participation in our winter relief and medical distribution camps.\n\nYour dedication has brought relief to over 400 underprivileged families.', 'Sneha Kulkarni', 'Community Partner', 'Hope Care Welfare Initiative', 'Lucknow, Uttar Pradesh', 'sneha.kulkarni@example.com', '+91 9812345678', '2026-09-10', 2, NULL, 'Sent', 'Authorized Signatory', 'General Secretary', NULL, '2026-09-12 08:14:36', NULL),
+(6, 'JMF/LTR/2026/003', 'Donation / CSR Request', 'CSR Partnership Proposal for Child Healthcare & Nutrition', 'Greetings from Jaysmrutti Foundation.\n\nWe submit this formal proposal for partnership under your Corporate Social Responsibility (CSR) wing for rural pediatric malnutrition eradication programs across Eastern UP.\n\nAll donations are eligible for tax deduction u/s 80G.', 'Amitabh Sen', 'Head of CSR', 'Zenith Global Enterprises', 'Connaught Place, New Delhi', 'csr@zenithglobal.com', '+91 11 43210987', '2026-09-12', 2, NULL, 'Generated', 'Authorized Signatory', 'Managing Trustee', NULL, '2026-09-12 08:14:36', NULL);
 
 -- --------------------------------------------------------
 
@@ -898,6 +1723,50 @@ INSERT INTO `notification_templates` (`id`, `notification_type`, `email_subject_
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `org_structure`
+--
+
+CREATE TABLE `org_structure` (
+  `id` int(11) NOT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `designation_id` int(11) DEFAULT NULL,
+  `title` varchar(150) NOT NULL,
+  `department` varchar(100) NOT NULL DEFAULT 'Executive Board',
+  `holder_name` varchar(150) DEFAULT NULL,
+  `holder_designation` varchar(150) DEFAULT NULL,
+  `holder_photo` varchar(255) DEFAULT NULL,
+  `holder_phone` varchar(30) DEFAULT NULL,
+  `holder_email` varchar(150) DEFAULT NULL,
+  `management_body_id` int(11) DEFAULT NULL,
+  `member_id` int(11) DEFAULT NULL,
+  `level_tier` int(11) NOT NULL DEFAULT 1,
+  `sort_order` int(11) NOT NULL DEFAULT 0,
+  `badge_color` varchar(30) NOT NULL DEFAULT 'teal',
+  `responsibilities` text DEFAULT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `org_structure`
+--
+
+INSERT INTO `org_structure` (`id`, `parent_id`, `designation_id`, `title`, `department`, `holder_name`, `holder_designation`, `holder_photo`, `holder_phone`, `holder_email`, `management_body_id`, `member_id`, `level_tier`, `sort_order`, `badge_color`, `responsibilities`, `is_active`, `created_at`, `updated_at`) VALUES
+(1, NULL, 1, 'National President & Chairman', 'Executive Board', 'Dr. Arvind Sharma', 'Founder & Chief Patron', NULL, '+91 98765 43210', 'president@ngocare.org', NULL, NULL, 1, 1, 'indigo', 'Overall strategic vision, constitutional governance, national partnerships and policy direction.', 1, '2026-09-12 09:49:45', '2026-09-12 09:49:45'),
+(2, 1, 2, 'Vice President (Programs & Alliances)', 'Executive Board', 'Smt. Vandana Mishra', 'Vice Chairperson', NULL, '+91 98765 43211', 'vp@ngocare.org', NULL, NULL, 2, 1, 'blue', 'Supervision of health, skill development and rural education programs across India.', 1, '2026-09-12 09:49:45', '2026-09-12 09:49:45'),
+(3, 1, 2, 'General Secretary & CEO', 'Secretariat & Administration', 'Rajesh K. Verma', 'General Secretary', NULL, '+91 98765 43212', 'secretary@ngocare.org', NULL, NULL, 2, 2, 'teal', 'Day-to-day NGO administration, state coordinator alignments, donor liaisons and institutional reporting.', 1, '2026-09-12 09:49:45', '2026-09-12 09:49:45'),
+(4, 1, 2, 'National Treasurer & Finance Head', 'Finance & Audit', 'Pooja Agarwal (CA)', 'Treasurer', NULL, '+91 98765 43213', 'treasurer@ngocare.org', NULL, NULL, 2, 3, 'amber', 'Statutory compliance, annual audits, fund allocation, budgeting and 80G/12A regulatory filings.', 1, '2026-09-12 09:49:45', '2026-09-12 09:49:45'),
+(5, 2, NULL, 'Director (Healthcare & Relief Services)', 'Health Directorate', 'Dr. S. K. Gupta (MD)', 'Medical Director', NULL, '+91 98765 43214', 'health@ngocare.org', NULL, NULL, 3, 1, 'emerald', 'Empanelment of hospitals/clinics, Swasthya Card schemes, blood donation drives and relief camps.', 1, '2026-09-12 09:49:45', '2026-09-12 09:49:45'),
+(6, 2, NULL, 'Director (Skill Training & Career Guidance)', 'Youth & Education Wing', 'Er. Alok Trivedi', 'Training Director', NULL, '+91 98765 43215', 'skills@ngocare.org', NULL, NULL, 3, 2, 'purple', 'Vocational courses, youth computer labs, scholarship assessments, and placement counseling.', 1, '2026-09-12 09:49:45', '2026-09-12 09:49:45'),
+(7, 3, NULL, 'State Program Coordinator (UP & Bihar)', 'State Operations', 'Manoj Tripathi', 'State Coordinator', NULL, '+91 98765 43216', 'state.up@ngocare.org', NULL, NULL, 3, 1, 'teal', 'Managing all District coordinators, field projects, government liaison, and district performance.', 1, '2026-09-12 09:49:45', '2026-09-12 09:49:45'),
+(8, 7, NULL, 'District Operations Coordinator (Lucknow & Varanasi)', 'District Operations', 'Suresh Kumar Yadav', 'District Coordinator', NULL, '+91 98765 43217', 'dist.lucknow@ngocare.org', NULL, NULL, 4, 1, 'blue', 'District-level project execution, block coordinator management, and community beneficiary validation.', 1, '2026-09-12 09:49:45', '2026-09-12 09:49:45'),
+(9, 8, NULL, 'Block Field Officer & Mobilizer', 'Block & Field Units', 'Anil Verma', 'Block Coordinator', NULL, '+91 98765 43218', 'block.bkt@ngocare.org', NULL, NULL, 5, 1, 'rose', 'Grassroots household surveys, health card enrolments, SHG meetings, and food/kit distribution.', 1, '2026-09-12 09:49:45', '2026-09-12 09:49:45'),
+(10, 9, NULL, 'Gram Panchayat Community Volunteers', 'Village Volunteer Network', 'Village Volunteer Team', 'Panchayat Unit', NULL, '+91 98765 43219', 'volunteers@ngocare.org', NULL, NULL, 5, 2, 'teal', 'Direct doorstep support, emergency coordination and event logistics at village panchayat level.', 1, '2026-09-12 09:49:45', '2026-09-12 09:49:45');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `payment_qrs`
 --
 
@@ -914,6 +1783,23 @@ CREATE TABLE `payment_qrs` (
 
 INSERT INTO `payment_qrs` (`id`, `title`, `qr_image_path`, `is_active`) VALUES
 (1, 'UPI', 'uploads/qrs/1773984670_2_1767606718_695b89be1c478.jpg', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payment_webhook_logs`
+--
+
+CREATE TABLE `payment_webhook_logs` (
+  `id` int(11) NOT NULL,
+  `gateway` varchar(30) NOT NULL,
+  `event_type` varchar(64) NOT NULL,
+  `payment_id` varchar(120) DEFAULT NULL,
+  `order_id` varchar(120) DEFAULT NULL,
+  `payload` longtext DEFAULT NULL,
+  `processed` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1201,6 +2087,114 @@ INSERT INTO `razorpay_webhook_logs` (`id`, `event_type`, `payment_id`, `order_id
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `recurring_donations`
+--
+
+CREATE TABLE `recurring_donations` (
+  `id` int(11) NOT NULL,
+  `project_id` int(11) DEFAULT NULL,
+  `donor_name` varchar(100) NOT NULL,
+  `donor_email` varchar(100) NOT NULL,
+  `donor_mobile` varchar(20) NOT NULL,
+  `donor_pan` varchar(20) DEFAULT NULL,
+  `donor_address` text DEFAULT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `frequency` enum('monthly','quarterly','half_yearly','yearly') NOT NULL DEFAULT 'monthly',
+  `billing_cycle_count` int(11) NOT NULL DEFAULT 0 COMMENT '0 for unlimited / until cancelled',
+  `completed_cycles` int(11) NOT NULL DEFAULT 0,
+  `payment_gateway` enum('Razorpay','PhonePe','Manual') NOT NULL DEFAULT 'Razorpay',
+  `razorpay_plan_id` varchar(100) DEFAULT NULL,
+  `razorpay_customer_id` varchar(100) DEFAULT NULL,
+  `razorpay_subscription_id` varchar(100) DEFAULT NULL,
+  `razorpay_token_id` varchar(100) DEFAULT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date DEFAULT NULL,
+  `next_charge_date` date DEFAULT NULL,
+  `last_charge_date` date DEFAULT NULL,
+  `status` enum('pending','active','paused','stopped','completed','failed') NOT NULL DEFAULT 'pending',
+  `pause_reason` varchar(255) DEFAULT NULL,
+  `cancel_reason` varchar(255) DEFAULT NULL,
+  `is_80g_eligible` tinyint(1) NOT NULL DEFAULT 0,
+  `referral_code` varchar(40) DEFAULT NULL,
+  `sa_student_id` int(11) DEFAULT NULL,
+  `field_agent_id` int(11) DEFAULT NULL,
+  `notes` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `recurring_donation_transactions`
+--
+
+CREATE TABLE `recurring_donation_transactions` (
+  `id` int(11) NOT NULL,
+  `recurring_donation_id` int(11) NOT NULL,
+  `donation_id` int(11) DEFAULT NULL COMMENT 'FK to master donations table',
+  `cycle_number` int(11) NOT NULL DEFAULT 1,
+  `amount` decimal(10,2) NOT NULL,
+  `payment_gateway` enum('Razorpay','PhonePe','Manual') NOT NULL DEFAULT 'Razorpay',
+  `razorpay_subscription_id` varchar(100) DEFAULT NULL,
+  `razorpay_payment_id` varchar(120) DEFAULT NULL,
+  `razorpay_order_id` varchar(120) DEFAULT NULL,
+  `razorpay_signature` varchar(255) DEFAULT NULL,
+  `razorpay_invoice_id` varchar(120) DEFAULT NULL,
+  `charge_date` date NOT NULL,
+  `status` enum('pending','success','failed','refunded') NOT NULL DEFAULT 'pending',
+  `receipt_no` varchar(50) DEFAULT NULL,
+  `error_code` varchar(100) DEFAULT NULL,
+  `error_description` text DEFAULT NULL,
+  `webhook_payload` longtext DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sanstha_certificates`
+--
+
+CREATE TABLE `sanstha_certificates` (
+  `id` int(11) NOT NULL,
+  `certificate_no` varchar(100) NOT NULL,
+  `sanstha_name` varchar(255) NOT NULL,
+  `authorized_person` varchar(255) NOT NULL,
+  `designation` varchar(150) DEFAULT 'Center Head / Director',
+  `auth_type` varchar(100) NOT NULL DEFAULT 'Branch Office',
+  `contact_phone` varchar(30) DEFAULT NULL,
+  `contact_email` varchar(150) DEFAULT NULL,
+  `center_address` text DEFAULT NULL,
+  `city` varchar(100) DEFAULT NULL,
+  `district` varchar(100) DEFAULT NULL,
+  `state` varchar(100) DEFAULT NULL,
+  `pincode` varchar(20) DEFAULT NULL,
+  `valid_from` date NOT NULL,
+  `valid_until` date DEFAULT NULL,
+  `scope_of_work` text DEFAULT NULL,
+  `template_id` int(11) DEFAULT NULL,
+  `template_no` tinyint(2) NOT NULL DEFAULT 1,
+  `pdf_path` varchar(255) DEFAULT NULL,
+  `qr_payload` text DEFAULT NULL,
+  `status` enum('active','expired','suspended','revoked') NOT NULL DEFAULT 'active',
+  `issued_by` int(11) DEFAULT NULL,
+  `issued_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sanstha_certificates`
+--
+
+INSERT INTO `sanstha_certificates` (`id`, `certificate_no`, `sanstha_name`, `authorized_person`, `designation`, `auth_type`, `contact_phone`, `contact_email`, `center_address`, `city`, `district`, `state`, `pincode`, `valid_from`, `valid_until`, `scope_of_work`, `template_id`, `template_no`, `pdf_path`, `qr_payload`, `status`, `issued_by`, `issued_at`, `created_at`, `updated_at`) VALUES
+(1, 'AUTH-SANSTHA-2026-0001', 'Pragati Jan Seva Sanstha & Skill Training Center', 'Dr. Manoj Kumar Srivastava', 'State Zonal Director', 'District Project Center', '+91 9876543210', 'pragati.lucknow@ngo.org', '45, Vikas Bhawan Road, Gomti Nagar', 'Lucknow', 'Lucknow', 'Uttar Pradesh', '226010', '2026-09-12', '2029-09-12', 'Authorized to conduct official branch operations, beneficiary enrollments, vocational skill training, and social welfare projects under organization guidelines.', NULL, 1, 'uploads/documents/sanstha_certificates/Sanstha_Certificate_AUTH-SANSTHA-2026-0001.pdf', NULL, 'active', 2, '2026-09-12 16:20:06', '2026-09-12 10:50:06', '2026-09-12 10:50:06');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sa_activity_logs`
 --
 
@@ -1331,7 +2325,10 @@ CREATE TABLE `sa_certificates` (
   `event_title` varchar(200) DEFAULT NULL,
   `notes` text DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp(),
-  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `recipient_name` varchar(120) DEFAULT NULL,
+  `recipient_college` varchar(150) DEFAULT NULL,
+  `recipient_level` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1687,7 +2684,7 @@ CREATE TABLE `sa_students` (
   `monthly_attendance_percentage` decimal(5,2) DEFAULT 0.00,
   `last_attendance_bonus_date` datetime DEFAULT NULL,
   `rank_position` int(11) DEFAULT NULL,
-  `level_name` varchar(60) NOT NULL DEFAULT 'Volunteer',
+  `level_name` varchar(60) NOT NULL DEFAULT 'Student Ambassador',
   `program_id` int(11) DEFAULT NULL,
   `certificates_earned` int(11) NOT NULL DEFAULT 0,
   `last_login_at` datetime DEFAULT NULL,
@@ -1704,8 +2701,8 @@ CREATE TABLE `sa_students` (
 --
 
 INSERT INTO `sa_students` (`id`, `student_no`, `full_name`, `email`, `mobile`, `password_hash`, `status`, `is_verified`, `gender`, `college_name`, `city_name`, `state_name`, `department_name`, `year_of_study`, `address`, `referral_code`, `referred_by_student_id`, `total_points`, `monthly_attendance_percentage`, `last_attendance_bonus_date`, `rank_position`, `level_name`, `program_id`, `certificates_earned`, `last_login_at`, `login_count`, `approved_at`, `approved_by_user_id`, `rejection_reason`, `created_at`, `updated_at`) VALUES
-(1, 'SA-2026-0001', 'anuj upadhyay', 'anujbca2022@gmail.com', '7570032407', '$2y$10$RtxX4mqdOhL3zhstn5fsrOHHwLpAzHDHNbgizbnvzsXTHFT1BAcce', 'Active', 1, 'Male', 'united insitutie of management', 'jaunpur', 'Uttar Pradesh', 'BCA', '2nd Year', 'baserwan\r\nkaserwan', 'INT-15014F', NULL, 65, 0.00, NULL, NULL, 'Volunteer', 1, 0, '2026-06-11 15:03:25', 3, '2026-06-06 15:11:31', 2, NULL, '2026-06-06 14:50:23', '2026-06-11 15:29:52'),
-(2, 'SA-2026-0002', 'bhole upadhyay', 'bholeupadhyayu@gmail.com', '7572021365', '$2y$10$o5n6eqgnR9hv0tu/SLhuNe2qK4i0uT/4mqXn1x09s85e8TKmj34nK', 'Active', 1, 'Male', 'united insitutie of management', 'jaunpur', 'Uttar Pradesh', 'BCA', '3rd Year', 'baserwan\r\nkaserwan', 'INT-EDEEB4', 1, 0, 0.00, NULL, NULL, 'Volunteer', NULL, 0, NULL, 0, '2026-06-07 11:21:04', 2, NULL, '2026-06-07 11:17:36', NULL);
+(1, 'SA-2026-0001', 'anuj upadhyay', 'anujbca2022@gmail.com', '7570032407', '$2y$10$RtxX4mqdOhL3zhstn5fsrOHHwLpAzHDHNbgizbnvzsXTHFT1BAcce', 'Active', 1, 'Male', 'united insitutie of management', 'jaunpur', 'Uttar Pradesh', 'BCA', '2nd Year', 'baserwan\r\nkaserwan', 'INT-15014F', NULL, 65, 0.00, NULL, NULL, 'Student Ambassador', 1, 0, '2026-06-11 15:03:25', 3, '2026-06-06 15:11:31', 2, NULL, '2026-06-06 14:50:23', '2026-06-11 15:29:52'),
+(2, 'SA-2026-0002', 'bhole upadhyay', 'bholeupadhyayu@gmail.com', '7572021365', '$2y$10$o5n6eqgnR9hv0tu/SLhuNe2qK4i0uT/4mqXn1x09s85e8TKmj34nK', 'Active', 1, 'Male', 'united insitutie of management', 'jaunpur', 'Uttar Pradesh', 'BCA', '3rd Year', 'baserwan\r\nkaserwan', 'INT-EDEEB4', 1, 0, 0.00, NULL, NULL, 'Student Ambassador', NULL, 0, NULL, 0, '2026-06-07 11:21:04', 2, NULL, '2026-06-07 11:17:36', NULL);
 
 -- --------------------------------------------------------
 
@@ -1845,16 +2842,24 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`setting_key`, `setting_value`) VALUES
-('about_desc', '<b>Jaysmrutti Foundation</b> is a non-profit organization committed to building an inclusive, healthy, educated, and self-reliant society. We work to create meaningful opportunities for people from vulnerable and economically weaker sections of society, helping them live with dignity, equality, and hope.\r\n\r\nOur work focuses on <b>education, skill development, healthcare, sanitation, environmental protection, social equality, and the promotion of Indian art and culture.</b> Through community participation and sustainable initiatives, we strive to create positive and lasting social change.\r\n\r\n<b>Jaysmrutti Foundation</b> believes that meaningful development is not only about providing immediate support, but also about empowering people with knowledge, skills, opportunities, and dignity.'),
+('about_desc', '\r\n<div class=\"about-content\"><p><strong>Dnyaneshwari Charitable Foundation</strong> is a dedicated <strong>non-profit organization</strong> solely committed to the service, welfare, and upliftment of the elderly and underprivileged sections of society.</p><p>The foundation operates a specialized <strong>old age home</strong> that provides a safe, affectionate, and dignified residential environment for senior citizens, ensuring their comprehensive physical and emotional well-being.</p><p>It specializes in offering <strong>24/7 caretaker support</strong>, <strong>professional palliative care</strong>, and dedicated assistance for <strong>bedridden and critically ill geriatric patients</strong>.</p><p>Through compassionate care, dignity, and continuous support, the foundation strives to create a secure and respectful environment where every senior citizen can live with comfort, care, and dignity.</p></div>\r\n\r\n'),
 ('about_image', 'uploads/content/about_us_1788162530.jpg'),
-('about_mission', 'The mission of <b>Jaysmrutti Foundation</b> is to work continuously and effectively for the welfare and development of different sections of society. Our aim is not only to provide support to those in need, but also to empower individuals to become self-reliant and lead dignified lives.\r\n\r\nWe are committed to:\r\n\r\n<ul>\r\n<li>Promoting <b>education, training, and skill development</b> for better career and employment opportunities.</li>\r\n<li>Creating awareness about <b>healthcare, hygiene, sanitation, nutrition, and disease prevention.</b></li>\r\n<li>Supporting <b>poor, differently abled, elderly, orphaned, widowed, and vulnerable individuals.</b></li>\r\n<li>Promoting <b>environmental protection</b> and responsible use of natural resources.</li>\r\n<li>Encouraging <b>equality, social harmony, and mutual respect</b> among all communities.</li>\r\n<li>Providing <b>scholarships and educational assistance</b> to deserving students from economically weaker backgrounds.</li>\r\n<li>Promoting and preserving <b>Indian art, crafts, traditions, and cottage industries.</b></li>\r\n</ul>'),
+('about_mission', '<section class=\"mission-content\"><h2>Our Mission</h2><p>To enrich the lives of <strong>senior citizens</strong> in the evening of their journey by offering <strong>unconditional love</strong>, <strong>essential medical aid</strong>, and a <strong>peaceful and dignified shelter</strong>.</p><p>The foundation strives to prevent neglect and ensure that every <strong>helpless and ailing elder</strong> receives compassionate care, respect, and continuous support, bringing a consistent smile to their face.</p></section>'),
 ('about_title', 'Why We Exist'),
-('about_vision', 'The vision of <b>Jaysmrutti Foundation</b> is to build an <b>inclusive, healthy, educated, and self-reliant society</b> where every individual has the right to dignity, equal opportunities, a safe environment, and a better quality of life.\r\n\r\nWe envision a society where <b>children have access to education, youth have opportunities to develop their skills, families can live with dignity, and vulnerable communities receive the support they need.</b>\r\n\r\nThrough education, empowerment, healthcare, environmental responsibility, social equality, and community participation, <b>Jaysmrutti Foundation</b> aims to contribute towards a stronger, compassionate, and sustainable India.'),
+('about_vision', '<section class=\"vision-content\"><h2>Our Vision</h2><p>To cultivate an <strong>inclusive and empathetic society</strong> where no senior citizen is left <strong>destitute, abandoned, or unassisted</strong>.</p><p>We envision a future where every elderly person receives <strong>holistic care</strong>, access to essential <strong>healthcare resources</strong>, and the <strong>social dignity and respect</strong> they deserve throughout their lives, until their final days.</p></section>'),
+('active_payment_gateway', 'razorpay'),
 ('admin_training_videos_json', '[]'),
 ('advisory_board_json', '{\"title\":\"Join Our Expert Network\",\"intro\":\"We invite qualified professionals to contribute to public wellness through education, consultation, and awareness initiatives.\",\"contribution\":[\"Contribute approximately 8 hours weekly.\",\"Participate in awareness initiatives.\",\"Provide expert guidance.\",\"Support community wellness programs.\",\"Mentor volunteers and interns.\"],\"expertise\":[\"Nutrition & Dietetics\",\"Fitness & Exercise Science\",\"Sports Nutrition\",\"Psychology\",\"Physiotherapy\",\"Preventive Healthcare\",\"Lifestyle Medicine\"]}'),
 ('ambassador_program_json', '{\"title\":\"Become a wellness advocate in your city.\",\"responsibilities\":[\"Organize awareness activities.\",\"Encourage healthy lifestyle adoption.\",\"Connect citizens with wellness resources.\",\"Support local outreach initiatives.\"],\"recognition\":[\"Ambassador Certificate\",\"Leadership Recognition\",\"Annual Awards\"]}'),
 ('bank_details', 'Bank Name: XYZ Bank\r\nAC No: 123456789\r\nIFSC: XYZ0001'),
 ('birthday_cron_key', ''),
+('career_guidance_banner_image', ''),
+('career_guidance_counseling_text', 'Need personalized guidance on choosing the right career stream or preparing for government and private sector jobs? Connect with our certified NGO career counselors for free advisory sessions.'),
+('career_guidance_desc', 'Our Career Guidance and Skills Development Initiative bridges the gap between grassroots education and viable employment. We offer hands-on vocational modules, digital literacy programs, competitive exam preparation, and free one-on-one mentorship sessions to help youth build sustainable livelihoods.'),
+('career_guidance_email', 'careers@ngocare.org'),
+('career_guidance_helpline', '+91 98765 43210'),
+('career_guidance_subtitle', 'Empowering youth with market-ready vocational skills, interview mentorship, and career counseling.'),
+('career_guidance_title', 'Career Guidance & Skills Training'),
 ('closing_statement', '“A healthier nation is built when communities, experts, businesses, and citizens come together with a shared purpose.” Join Mouli FitLife Foundation and become part of India’s wellness movement.'),
 ('contact_address', ''),
 ('contact_email', ''),
@@ -1880,21 +2885,35 @@ INSERT INTO `settings` (`setting_key`, `setting_value`) VALUES
 ('enable_80g', '1'),
 ('focus_areas_json', '[{\"title\":\"Nutrition Awareness\",\"description\":\"Promoting healthy eating habits through workshops, awareness campaigns, and expert-led sessions.\",\"icon\":\"fa-apple-whole\"},{\"title\":\"Physical Fitness\",\"description\":\"Encouraging active lifestyles through fitness challenges, community programs, and wellness events.\",\"icon\":\"fa-person-running\"},{\"title\":\"Preventive Healthcare\",\"description\":\"Educating citizens on lifestyle-related diseases and preventive measures.\",\"icon\":\"fa-heart-pulse\"},{\"title\":\"Mental Well-being\",\"description\":\"Supporting emotional wellness through awareness initiatives and expert guidance.\",\"icon\":\"fa-brain\"},{\"title\":\"Community Engagement\",\"description\":\"Mobilizing volunteers and local partners to create sustainable health impact.\",\"icon\":\"fa-users\"}]'),
 ('footer_about', ''),
-('google_maps_api_key', ''),
+('google_maps_api_key', 'AQ.Ab8RN6Lo-vPkmoWawdAbPWSc20c4Sdp0Bger98JfFWYXPVF5eA'),
 ('home_theme', 'modern'),
 ('impact_goals_json', '{\"cities\":\"100+\",\"volunteers\":\"10,000+\",\"partners\":\"5,000+\",\"experts\":\"1,000+\",\"citizens\":\"1 Million\"}'),
 ('internship_program_json', '{\"title\":\"Learn While Creating Impact\",\"intro\":\"Students gain practical experience in various departments while driving wellness advocacy.\",\"areas\":[{\"name\":\"Community Outreach\",\"desc\":\"Connecting communities with wellness opportunities.\"},{\"name\":\"Partner Engagement\",\"desc\":\"Building relationships with local wellness partners.\"},{\"name\":\"Event Management\",\"desc\":\"Supporting health camps and awareness programs.\"},{\"name\":\"Digital Media\",\"desc\":\"Promoting wellness through social media campaigns.\"},{\"name\":\"Research & Data Collection\",\"desc\":\"Supporting impact assessment and program improvement.\"}],\"benefits\":[\"Internship Certificate\",\"Letter of Recommendation\",\"Practical Exposure\",\"Leadership Development\",\"Networking Opportunities\"]}'),
+('letterhead_address', ''),
+('letterhead_email', ''),
+('letterhead_footer_text', 'Registered under Societies Registration Act | Donations Tax Exempted u/s 80G & 12A of Income Tax Act'),
+('letterhead_header_color', '#0F8B8D'),
+('letterhead_logo', ''),
+('letterhead_org_name', ''),
+('letterhead_phone', ''),
+('letterhead_reg_no', ''),
+('letterhead_signatory_designation', 'President / General Secretary'),
+('letterhead_signatory_name', 'Authorized Signatory'),
+('letterhead_signature_image', ''),
+('letterhead_tagline', 'Empowering Communities • Transforming Lives • Sustainable Development'),
+('letterhead_watermark_enabled', '1'),
+('letterhead_website', ''),
 ('member_prefix', 'MEM-'),
 ('member_receipt_prefix', 'MRCPT-'),
-('ngo_address', '2nd Floor, Dharma Villa, Wazidpur Tiraha, Jaunpur, Uttar Pradesh - 222002, India'),
+('ngo_address', 'Shop No. 2, Vijaya Villa, Plot No. 410, Sector R3, \r\n  Vadghar, Panvel, Karanjade, Raigad, Maharashtra - 410206'),
 ('ngo_city', 'Jaunpur'),
 ('ngo_district', 'Jaunpur'),
-('ngo_email', 'info@velnixsoft.com'),
-('ngo_logo', 'uploads/settings/ngo_logo_1787299258.png'),
-('ngo_phone', '+91 7651910331'),
+('ngo_email', 'dcfoldage@gmail.com'),
+('ngo_logo', 'uploads/settings/ngo_logo_1790485236.jpeg'),
+('ngo_phone', '+91 7039024175'),
 ('ngo_signature', 'uploads/settings/ngo_signature_1788350423.png'),
 ('ngo_state', 'Uttar Pradesh'),
-('ngo_website', ''),
+('ngo_website', ' dcfoldage.com'),
 ('objectives_content', 'The objectives of Jaysmrutti Foundation are focused on creating an inclusive, healthy, educated and self-reliant society by empowering individuals and strengthening communities.\r\n\r\n• To promote education, vocational training and skill development for youth and people from disadvantaged communities.\r\n\r\n• To create awareness about healthcare, hygiene, sanitation, nutrition, cleanliness and disease prevention.\r\n\r\n• To provide welfare, relief, educational assistance and support to poor, differently abled, elderly, orphaned, widowed and vulnerable individuals.\r\n\r\n• To promote environmental protection, tree plantation and conservation of natural resources through community participation.\r\n\r\n• To encourage social equality, mutual respect, harmony and cooperation among people of different religions, cultures and backgrounds.\r\n\r\n• To provide scholarships and educational assistance to meritorious students from economically weaker sections.\r\n\r\n• To promote, preserve and revive Indian art, crafts, traditional practices and cottage industries.\r\n\r\n• To spread knowledge and positive social awareness through publications, literature, seminars, audio-visual content and awareness programmes.\r\n\r\n• To establish and support community welfare and sustainable development programmes that create long-term social impact.\r\n\r\n• To encourage donations, grants, partnerships and community participation for the advancement of social welfare activities.\r\n\r\nThrough these objectives, Jaysmrutti Foundation aims to create meaningful and lasting social change by providing people with knowledge, opportunities, skills, support and dignity.'),
 ('objectives_image', 'uploads/content/objectives_1788163155_8922e793.jpeg'),
 ('objectives_title', 'Our Objectives'),
@@ -1912,8 +2931,8 @@ INSERT INTO `settings` (`setting_key`, `setting_value`) VALUES
 ('receipt_prefix', 'R'),
 ('refund_policy_content', '<p>Our policy on refunds for donations is as follows...</p>'),
 ('reg_no', '123455'),
-('site_favicon', 'uploads/settings/site_favicon_1787299258.png'),
-('site_name', 'Jaysmrutti Foundation'),
+('site_favicon', 'uploads/settings/site_favicon_1790485484.jpeg'),
+('site_name', 'Dnyaneshwari charitable foundation '),
 ('smtp_host', 'smtp.hostinger.com'),
 ('smtp_pass', 'Kitandkin2022@'),
 ('smtp_port', '587'),
@@ -1921,7 +2940,7 @@ INSERT INTO `settings` (`setting_key`, `setting_value`) VALUES
 ('smtp_user', 'Info@kithandkinn.org'),
 ('social_facebook', 'https://www.facebook.com/profile.php?id=61593792671229'),
 ('social_instagram', 'https://www.instagram.com/velnixsoft/'),
-('social_youtube', 'https://youtube.com/'),
+('social_youtube', 'https://youtube.com/@dcfoldage?si=DqilZ8yq-ti04LSN'),
 ('terms_conditions', '<h2>Terms & Conditions</h2><p>Your content here...</p>'),
 ('terms_conditions_content', '<p>Welcome to our website. If you continue to browse and use this website, you are agreeing to comply with and be bound by the following terms and conditions of use...</p>'),
 ('transparency_active_projects', '0'),
@@ -1931,7 +2950,73 @@ INSERT INTO `settings` (`setting_key`, `setting_value`) VALUES
 ('upi_vpa', NULL),
 ('volunteer_prefix', 'VOL-'),
 ('whatsapp_api_key', ''),
-('whatsapp_number', '917651910331');
+('whatsapp_number', '917039024175');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `skill_courses`
+--
+
+CREATE TABLE `skill_courses` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `category` enum('vocational','computer_it','soft_skills','competitive_exams','entrepreneurship','healthcare_aid','other') NOT NULL DEFAULT 'vocational',
+  `category_custom` varchar(100) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `curriculum` text DEFAULT NULL,
+  `duration` varchar(100) DEFAULT '3 Months',
+  `eligibility` varchar(150) DEFAULT '10th / 12th Pass or Equivalent',
+  `mode` enum('Offline','Online','Hybrid') NOT NULL DEFAULT 'Offline',
+  `fee_type` enum('100% Free','Subsidized Aid','Scholarship Based') NOT NULL DEFAULT '100% Free',
+  `instructor` varchar(150) DEFAULT 'Senior NGO Faculty & Field Experts',
+  `location` varchar(255) DEFAULT 'Field Training Center & Online',
+  `image_path` varchar(255) DEFAULT NULL,
+  `batch_start_date` date DEFAULT NULL,
+  `max_seats` int(11) NOT NULL DEFAULT 30,
+  `status` enum('active','inactive','upcoming','completed') NOT NULL DEFAULT 'active',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `skill_courses`
+--
+
+INSERT INTO `skill_courses` (`id`, `title`, `category`, `category_custom`, `description`, `curriculum`, `duration`, `eligibility`, `mode`, `fee_type`, `instructor`, `location`, `image_path`, `batch_start_date`, `max_seats`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Digital Literacy & Office Productivity', 'computer_it', NULL, 'Master fundamental computer operations, Microsoft Office (Word, Excel, PPT), Internet browsing, email communication, and online government portal navigation.', 'Module 1: Basic Computer Hardware & OS\nModule 2: MS Word & Document Design\nModule 3: MS Excel Data Management\nModule 4: Internet & Cyber Hygiene', '6 Weeks (45 Hours)', '8th / 10th Pass', 'Hybrid', '100% Free', 'Rajesh Verma (IT Trainer)', 'District Center & Online', NULL, '2026-09-26', 35, 'active', '2026-09-12 09:42:31', '2026-09-12 09:42:31'),
+(2, 'Community Healthcare Assistant (First Aid & Nursing Basics)', 'healthcare_aid', NULL, 'Comprehensive field training in vital signs monitoring, primary first-aid, community hygiene counseling, elderly care, and basic patient support.', 'Module 1: Vital Signs & BP Monitoring\nModule 2: Emergency First Aid & Wound Dressing\nModule 3: Patient Care Ethics & Sanitization\nModule 4: Field Internship at NGO Health Camps', '3 Months', '10th / 12th Pass', 'Offline', '100% Free', 'Dr. S. K. Gupta & Nursing Staff', 'NGO Medical Training Center', NULL, '2026-10-03', 25, 'active', '2026-09-12 09:42:31', '2026-09-12 09:42:31'),
+(3, 'Spoken English & Interview Communication Mastery', 'soft_skills', NULL, 'Build conversational confidence, professional email etiquette, resume writing, public speaking, and crack job interviews with mock rounds.', 'Module 1: Everyday English Vocabulary & Grammar\nModule 2: Professional Workplace Dialogue\nModule 3: Resume & Cover Letter Formulation\nModule 4: Mock Interview Rounds & Feedback', '2 Months (60 Hours)', '12th Pass / Undergraduate', 'Online', '100% Free', 'Anjali Sharma (Communication Specialist)', 'Live Online Classes', NULL, '2026-09-22', 50, 'active', '2026-09-12 09:42:31', '2026-09-12 09:42:31'),
+(4, 'Rural Micro-Entrepreneurship & SHG Handicraft Management', 'entrepreneurship', NULL, 'Learn practical business startup fundamentals, product pricing, micro-loans, digital UPI payments, government subsidies (PMEGP/MUDRA), and local market linkage.', 'Module 1: Business Idea Validation & Feasibility\nModule 2: Bookkeeping & Cashflow Management\nModule 3: Government Schemes & Bank Loans\nModule 4: Marketing via WhatsApp & Local Melas', '4 Weeks', 'Open to All / Women & Youth', 'Offline', '100% Free', 'Vikas Mishra (Rural Enterprise Mentor)', 'Block Skill Hub', NULL, '2026-10-10', 30, 'active', '2026-09-12 09:42:31', '2026-09-12 09:42:31');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `skill_course_enrollments`
+--
+
+CREATE TABLE `skill_course_enrollments` (
+  `id` int(11) NOT NULL,
+  `application_no` varchar(50) NOT NULL,
+  `course_id` int(11) NOT NULL,
+  `applicant_name` varchar(150) NOT NULL,
+  `contact` varchar(20) NOT NULL,
+  `email` varchar(150) DEFAULT NULL,
+  `gender` enum('Male','Female','Other') NOT NULL DEFAULT 'Male',
+  `dob` date DEFAULT NULL,
+  `age` int(11) DEFAULT NULL,
+  `qualification` varchar(150) NOT NULL,
+  `state` varchar(100) NOT NULL,
+  `district` varchar(100) NOT NULL,
+  `city` varchar(100) DEFAULT NULL,
+  `address` text NOT NULL,
+  `motivation` text DEFAULT NULL,
+  `status` enum('pending','contacted','enrolled','completed','cancelled') NOT NULL DEFAULT 'pending',
+  `admin_notes` text DEFAULT NULL,
+  `reviewed_by` int(11) DEFAULT NULL,
+  `applied_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1953,8 +3038,8 @@ CREATE TABLE `sliders` (
 --
 
 INSERT INTO `sliders` (`id`, `title`, `subtitle`, `image_path`, `priority`, `is_active`) VALUES
-(18, 'h2', 'Driving environmental conservation, sustainable livelihoods, and grassroots empowerment across India.', 'uploads/slider/1788161316_ChatGPT Image Aug 31, 2026, 12_58_14 PM.png', 0, 1),
-(19, 'h1', 'Driving environmental conservation, sustainable livelihoods, and grassroots empowerment across India.', 'uploads/slider/1788161712_ChatGPT Image Aug 31, 2026, 01_04_47 PM.png', 0, 1);
+(20, 'Test', 'test', 'uploads/slider/1790856304_WhatsApp Image 2026-09-30 at 1.25.56 PM.jpeg', 0, 1),
+(21, 'second', 'Test', 'uploads/slider/1790856327_WhatsApp Image 2026-09-30 at 1.25.48 PM.jpeg', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -1974,6 +3059,45 @@ CREATE TABLE `sponsors` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `staff_letters`
+--
+
+CREATE TABLE `staff_letters` (
+  `id` int(11) NOT NULL,
+  `letter_no` varchar(50) NOT NULL,
+  `type` enum('joining','offer','appointment','volunteer_joining','experience','relieving','appreciation','other') NOT NULL DEFAULT 'joining',
+  `name` varchar(150) NOT NULL,
+  `contact` varchar(50) DEFAULT NULL,
+  `email` varchar(150) DEFAULT NULL,
+  `designation` varchar(150) NOT NULL,
+  `department` varchar(100) DEFAULT NULL,
+  `issued_date` date NOT NULL,
+  `joining_date` date DEFAULT NULL,
+  `salary_or_stipend` varchar(100) DEFAULT NULL,
+  `subject` varchar(255) DEFAULT NULL,
+  `letter_content` longtext NOT NULL,
+  `pdf_path` varchar(255) DEFAULT NULL,
+  `file_size` varchar(50) DEFAULT NULL,
+  `signatory_name` varchar(120) DEFAULT NULL,
+  `signatory_designation` varchar(120) DEFAULT NULL,
+  `status` enum('draft','issued','accepted','signed','cancelled') NOT NULL DEFAULT 'issued',
+  `issued_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `staff_letters`
+--
+
+INSERT INTO `staff_letters` (`id`, `letter_no`, `type`, `name`, `contact`, `email`, `designation`, `department`, `issued_date`, `joining_date`, `salary_or_stipend`, `subject`, `letter_content`, `pdf_path`, `file_size`, `signatory_name`, `signatory_designation`, `status`, `issued_by`, `created_at`, `updated_at`) VALUES
+(1, 'LET-OFF-2026-001', 'offer', 'Amitabh Sengupta', '+91 9876501234', 'amitabh.sengupta@example.com', 'State Program Coordinator', 'Operations & Field Strategy', '2026-02-01', '2026-02-15', '₹35,000 / month', 'Offer of Employment: State Program Coordinator', '<p>Dear <strong>Amitabh Sengupta</strong>,</p><p>We are pleased to offer you the position of <strong>State Program Coordinator</strong> at Jaysmrutti Foundation. Your leadership will guide our multi-district healthcare and community development initiatives.</p><p><strong>Reporting Date:</strong> 15 February 2026<br><strong>Location:</strong> Lucknow State Headquarters</p>', 'uploads/documents/staff_letters/Staff_Letter_LET-OFF-2026-001.pdf', '240 KB', 'National General Secretary', 'Executive Committee', 'issued', NULL, '2026-09-12 10:02:51', '2026-09-12 10:14:25'),
+(2, 'LET-APP-2026-002', 'appointment', 'Sunita Kushwaha', '+91 9786543210', 'sunita.kushwaha@example.com', 'District Operations Lead', 'District Healthcare Wing', '2026-02-10', '2026-02-16', '₹28,000 / month', 'Official Appointment Letter: District Operations Lead', '<p>Dear <strong>Sunita Kushwaha</strong>,</p><p>Consequent to your interview and acceptance of our offer, we are pleased to appoint you as <strong>District Operations Lead</strong> with immediate effect.</p>', 'uploads/documents/staff_letters/Staff_Letter_LET-APP-2026-002.pdf', '240 KB', 'National President', 'Jaysmrutti Foundation', 'accepted', NULL, '2026-09-12 10:02:51', '2026-09-12 10:14:25'),
+(3, 'LET-VOL-2026-003', 'volunteer_joining', 'Kavita Mishra', '+91 9123456780', 'kavita.volunteer@example.com', 'Youth & Field Mobilization Volunteer', 'Community Volunteers Wing', '2026-03-01', '2026-03-05', 'Honorary / Voluntary', 'Volunteer Joining & Welcome Certificate Letter', '<p>Dear <strong>Kavita Mishra</strong>,</p><p>Welcome to Jaysmrutti Foundation. We officially acknowledge your joining as a <strong>Youth & Field Mobilization Volunteer</strong>. Thank you for your dedication towards societal welfare.</p>', 'uploads/documents/staff_letters/Staff_Letter_LET-VOL-2026-003.pdf', '240 KB', 'Volunteer Coordinator', 'Community Wing', 'issued', NULL, '2026-09-12 10:02:51', '2026-09-12 10:14:25');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `templates`
 --
 
@@ -1981,7 +3105,7 @@ CREATE TABLE `templates` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `template_name` varchar(150) NOT NULL,
-  `template_type` enum('id_card','receipt','membership_certificate','achievement_certificate','appointment_letter','visitor_certificate','volunteer_certificate','student_certificate') NOT NULL,
+  `template_type` enum('id_card','receipt','membership_certificate','achievement_certificate','appointment_letter','visitor_certificate','volunteer_certificate','student_certificate','sanstha_authorization') NOT NULL,
   `canvas_width` int(11) NOT NULL DEFAULT 800,
   `canvas_height` int(11) NOT NULL DEFAULT 600,
   `background_image` varchar(255) DEFAULT NULL,
@@ -2351,6 +3475,19 @@ ALTER TABLE `agent_salary_ledger`
   ADD KEY `idx_salary_month` (`month_key`);
 
 --
+-- Indexes for table `agreements`
+--
+ALTER TABLE `agreements`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_agr_no` (`agreement_no`),
+  ADD KEY `idx_agr_partner_name` (`partner_name`),
+  ADD KEY `idx_agr_type` (`type`),
+  ADD KEY `idx_agr_signed_status` (`signed_status`),
+  ADD KEY `idx_agr_signed_date` (`signed_date`),
+  ADD KEY `idx_agr_created_by` (`created_by`),
+  ADD KEY `idx_agr_created_at` (`created_at`);
+
+--
 -- Indexes for table `attendance_bonus_history`
 --
 ALTER TABLE `attendance_bonus_history`
@@ -2420,6 +3557,50 @@ ALTER TABLE `bank_accounts`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `beneficiaries`
+--
+ALTER TABLE `beneficiaries`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_beneficiary_code` (`beneficiary_code`),
+  ADD KEY `idx_ben_name` (`name`),
+  ADD KEY `idx_ben_contact` (`contact`),
+  ADD KEY `idx_ben_aadhar` (`aadhar_no`),
+  ADD KEY `idx_ben_location` (`state`,`district`,`block`),
+  ADD KEY `idx_ben_status_date` (`status`,`registration_date`),
+  ADD KEY `idx_ben_category` (`category_id`),
+  ADD KEY `idx_ben_project` (`project_id`),
+  ADD KEY `idx_ben_registered_by` (`registered_by`),
+  ADD KEY `idx_ben_coordinator` (`coordinator_id`),
+  ADD KEY `idx_ben_agent` (`field_agent_id`),
+  ADD KEY `idx_ben_student` (`sa_student_id`);
+
+--
+-- Indexes for table `beneficiary_assistance_history`
+--
+ALTER TABLE `beneficiary_assistance_history`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_assistance_code` (`assistance_code`),
+  ADD KEY `idx_ast_beneficiary_id` (`beneficiary_id`),
+  ADD KEY `idx_ast_type_date` (`assistance_type`,`date`),
+  ADD KEY `idx_ast_status` (`status`),
+  ADD KEY `idx_ast_coordinator` (`coordinator_id`),
+  ADD KEY `idx_ast_agent` (`field_agent_id`),
+  ADD KEY `idx_ast_student` (`sa_student_id`),
+  ADD KEY `idx_ast_project` (`project_id`),
+  ADD KEY `idx_ast_item_donation` (`item_donation_id`),
+  ADD KEY `idx_ast_donation` (`donation_id`),
+  ADD KEY `idx_ast_event` (`event_id`);
+
+--
+-- Indexes for table `beneficiary_categories`
+--
+ALTER TABLE `beneficiary_categories`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_ben_cat_name` (`category_name`),
+  ADD UNIQUE KEY `uniq_ben_cat_slug` (`category_slug`),
+  ADD KEY `idx_ben_cat_active_order` (`is_active`,`display_order`);
+
+--
 -- Indexes for table `cash_deposits`
 --
 ALTER TABLE `cash_deposits`
@@ -2434,6 +3615,19 @@ ALTER TABLE `cash_deposits`
 --
 ALTER TABLE `certificates`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `complaints`
+--
+ALTER TABLE `complaints`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_complaint_ticket` (`ticket_no`),
+  ADD KEY `idx_complaints_type` (`type`),
+  ADD KEY `idx_complaints_status` (`status`),
+  ADD KEY `idx_complaints_contact` (`contact`),
+  ADD KEY `idx_complaints_email` (`email`),
+  ADD KEY `idx_complaints_created` (`created_at`),
+  ADD KEY `idx_complaints_reply_by` (`reply_by`);
 
 --
 -- Indexes for table `contact_messages`
@@ -2454,6 +3648,32 @@ ALTER TABLE `crowdfunding_campaigns`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `custom_receipts`
+--
+ALTER TABLE `custom_receipts`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_receipt_no` (`receipt_no`),
+  ADD KEY `idx_payer_name` (`payer_name`),
+  ADD KEY `idx_receipt_date` (`date`),
+  ADD KEY `idx_payment_mode` (`payment_mode`),
+  ADD KEY `idx_generated_by` (`generated_by`),
+  ADD KEY `idx_status` (`status`);
+
+--
+-- Indexes for table `doctor_agreements`
+--
+ALTER TABLE `doctor_agreements`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_doctor_agreement_no` (`agreement_no`),
+  ADD KEY `idx_doc_agr_partner` (`partner_id`),
+  ADD KEY `idx_doc_agr_status` (`status`),
+  ADD KEY `idx_doc_agr_signed_date` (`signed_date`),
+  ADD KEY `idx_doc_agr_valid_until` (`valid_until`),
+  ADD KEY `idx_doc_agr_created_by` (`created_by`),
+  ADD KEY `idx_doc_agr_created_at` (`created_at`),
+  ADD KEY `idx_doc_agr_cert_no` (`certificate_no`);
+
+--
 -- Indexes for table `donations`
 --
 ALTER TABLE `donations`
@@ -2461,7 +3681,8 @@ ALTER TABLE `donations`
   ADD UNIQUE KEY `receipt_no` (`receipt_no`),
   ADD KEY `project_id_fk` (`project_id`),
   ADD KEY `idx_donations_verified_by` (`verified_by`),
-  ADD KEY `idx_donations_achievement` (`sa_student_id`,`achievement_processed`);
+  ADD KEY `idx_donations_achievement` (`sa_student_id`,`achievement_processed`),
+  ADD KEY `idx_donations_recurring_id` (`recurring_donation_id`);
 
 --
 -- Indexes for table `donation_achievements`
@@ -2509,6 +3730,42 @@ ALTER TABLE `event_registrations`
   ADD KEY `idx_event_reg_sa_student` (`sa_student_id`,`event_id`);
 
 --
+-- Indexes for table `expenses`
+--
+ALTER TABLE `expenses`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_expense_code` (`expense_code`),
+  ADD KEY `idx_expenses_category` (`category_id`),
+  ADD KEY `idx_expenses_project` (`project_id`),
+  ADD KEY `idx_expenses_date` (`date`),
+  ADD KEY `idx_expenses_status_date` (`approved_status`,`date`),
+  ADD KEY `idx_expenses_added_by` (`added_by`),
+  ADD KEY `idx_expenses_approved_by` (`approved_by`);
+
+--
+-- Indexes for table `expense_categories`
+--
+ALTER TABLE `expense_categories`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_expense_cat_name` (`category_name`),
+  ADD UNIQUE KEY `uniq_expense_cat_slug` (`category_slug`),
+  ADD KEY `idx_expense_cat_active_order` (`is_active`,`display_order`);
+
+--
+-- Indexes for table `feedbacks`
+--
+ALTER TABLE `feedbacks`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_feedback_no` (`feedback_no`),
+  ADD KEY `idx_feedback_type` (`submitter_type`),
+  ADD KEY `idx_feedback_status` (`status`),
+  ADD KEY `idx_feedback_category` (`category`),
+  ADD KEY `idx_feedback_rating` (`rating`),
+  ADD KEY `idx_feedback_email` (`email`),
+  ADD KEY `idx_feedback_created` (`created_at`),
+  ADD KEY `idx_feedback_reply_by` (`reply_by`);
+
+--
 -- Indexes for table `field_agents`
 --
 ALTER TABLE `field_agents`
@@ -2523,10 +3780,73 @@ ALTER TABLE `gallery`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `healthcare_providers`
+--
+ALTER TABLE `healthcare_providers`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_hcp_code` (`provider_code`),
+  ADD KEY `idx_hcp_type` (`type`),
+  ADD KEY `idx_hcp_speciality` (`speciality`),
+  ADD KEY `idx_hcp_state` (`state`),
+  ADD KEY `idx_hcp_district` (`district`),
+  ADD KEY `idx_hcp_block` (`block`),
+  ADD KEY `idx_hcp_status` (`status`),
+  ADD KEY `idx_hcp_contact` (`contact`),
+  ADD KEY `idx_hcp_created_by` (`created_by`),
+  ADD KEY `idx_hcp_created_at` (`created_at`);
+
+--
+-- Indexes for table `healthcare_referrals`
+--
+ALTER TABLE `healthcare_referrals`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_hcr_referral_no` (`referral_no`),
+  ADD KEY `idx_hcr_provider_id` (`provider_id`),
+  ADD KEY `idx_hcr_beneficiary_id` (`beneficiary_id`),
+  ADD KEY `idx_hcr_appointment_date` (`appointment_date`),
+  ADD KEY `idx_hcr_status` (`status`),
+  ADD KEY `idx_hcr_created_by` (`created_by`);
+
+--
+-- Indexes for table `healthcare_services`
+--
+ALTER TABLE `healthcare_services`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_hcs_provider_id` (`provider_id`),
+  ADD KEY `idx_hcs_category` (`category`),
+  ADD KEY `idx_hcs_status` (`status`);
+
+--
+-- Indexes for table `health_cards`
+--
+ALTER TABLE `health_cards`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_health_card_number` (`card_number`),
+  ADD KEY `idx_hc_applicant_name` (`applicant_name`),
+  ADD KEY `idx_hc_contact` (`contact`),
+  ADD KEY `idx_hc_status` (`status`),
+  ADD KEY `idx_hc_issue_date` (`issue_date`),
+  ADD KEY `idx_hc_expiry_date` (`expiry_date`),
+  ADD KEY `idx_hc_state` (`state`),
+  ADD KEY `idx_hc_district` (`district`),
+  ADD KEY `idx_hc_beneficiary_id` (`beneficiary_id`),
+  ADD KEY `idx_hc_issued_by` (`issued_by`),
+  ADD KEY `idx_hc_previous_card_number` (`previous_card_number`);
+
+--
 -- Indexes for table `health_programs`
 --
 ALTER TABLE `health_programs`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `hr_policies`
+--
+ALTER TABLE `hr_policies`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `policy_code` (`policy_code`),
+  ADD KEY `idx_hr_category` (`category`),
+  ADD KEY `idx_hr_public` (`is_public`);
 
 --
 -- Indexes for table `inquiries`
@@ -2534,6 +3854,87 @@ ALTER TABLE `health_programs`
 ALTER TABLE `inquiries`
   ADD PRIMARY KEY (`id`),
   ADD KEY `idx_inquiries_status` (`status`);
+
+--
+-- Indexes for table `item_donations`
+--
+ALTER TABLE `item_donations`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_item_donation_code` (`donation_code`),
+  ADD KEY `idx_item_category` (`category_id`),
+  ADD KEY `idx_item_donor_id` (`donor_id`),
+  ADD KEY `idx_item_donor_email` (`donor_email`),
+  ADD KEY `idx_item_donor_mobile` (`donor_mobile`),
+  ADD KEY `idx_item_status_date` (`status`,`donation_date`),
+  ADD KEY `idx_item_project` (`project_id`),
+  ADD KEY `idx_item_agent` (`field_agent_id`),
+  ADD KEY `idx_item_student` (`sa_student_id`);
+
+--
+-- Indexes for table `item_donation_categories`
+--
+ALTER TABLE `item_donation_categories`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_category_name` (`category_name`),
+  ADD UNIQUE KEY `uniq_category_slug` (`category_slug`),
+  ADD KEY `idx_cat_active_order` (`is_active`,`display_order`);
+
+--
+-- Indexes for table `job_applications`
+--
+ALTER TABLE `job_applications`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_job_application_no` (`application_no`),
+  ADD KEY `idx_app_job_id` (`job_id`),
+  ADD KEY `idx_app_applicant_name` (`applicant_name`),
+  ADD KEY `idx_app_contact` (`contact`),
+  ADD KEY `idx_app_email` (`email`),
+  ADD KEY `idx_app_status` (`status`),
+  ADD KEY `idx_app_applied_date` (`applied_date`),
+  ADD KEY `idx_app_reviewed_by` (`reviewed_by`);
+
+--
+-- Indexes for table `job_openings`
+--
+ALTER TABLE `job_openings`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_job_code` (`job_code`),
+  ADD KEY `idx_jobs_category` (`category`),
+  ADD KEY `idx_jobs_status` (`status`),
+  ADD KEY `idx_jobs_location` (`location`),
+  ADD KEY `idx_jobs_state` (`state`),
+  ADD KEY `idx_jobs_district` (`district`),
+  ADD KEY `idx_jobs_posted_date` (`posted_date`),
+  ADD KEY `idx_jobs_last_date` (`last_date`),
+  ADD KEY `idx_jobs_created_by` (`created_by`);
+
+--
+-- Indexes for table `join_applications`
+--
+ALTER TABLE `join_applications`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_join_app_no` (`application_no`),
+  ADD KEY `idx_join_app_type` (`application_type`),
+  ADD KEY `idx_join_project_id` (`project_id`),
+  ADD KEY `idx_join_job_id` (`job_id`),
+  ADD KEY `idx_join_payment_status` (`payment_status`),
+  ADD KEY `idx_join_status` (`status`),
+  ADD KEY `idx_join_contact` (`contact`),
+  ADD KEY `idx_join_email` (`email`),
+  ADD KEY `idx_join_applied_date` (`applied_date`),
+  ADD KEY `fk_join_app_reviewed_by` (`reviewed_by`);
+
+--
+-- Indexes for table `letters`
+--
+ALTER TABLE `letters`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_letter_reference_no` (`reference_no`),
+  ADD KEY `idx_letters_type` (`letter_type`),
+  ADD KEY `idx_letters_generated_date` (`generated_date`),
+  ADD KEY `idx_letters_status` (`status`),
+  ADD KEY `idx_letters_generated_by` (`generated_by`),
+  ADD KEY `idx_letters_recipient_name` (`recipient_name`);
 
 --
 -- Indexes for table `management_body`
@@ -2608,10 +4009,30 @@ ALTER TABLE `notification_templates`
   ADD KEY `idx_enabled` (`is_enabled`);
 
 --
+-- Indexes for table `org_structure`
+--
+ALTER TABLE `org_structure`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_org_parent` (`parent_id`),
+  ADD KEY `idx_org_dept` (`department`),
+  ADD KEY `idx_org_level` (`level_tier`),
+  ADD KEY `idx_org_status` (`is_active`),
+  ADD KEY `fk_org_mgmt_body` (`management_body_id`),
+  ADD KEY `fk_org_member_desig` (`designation_id`);
+
+--
 -- Indexes for table `payment_qrs`
 --
 ALTER TABLE `payment_qrs`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `payment_webhook_logs`
+--
+ALTER TABLE `payment_webhook_logs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_gateway_payid` (`gateway`,`payment_id`),
+  ADD KEY `idx_gateway_orderid` (`gateway`,`order_id`);
 
 --
 -- Indexes for table `posts`
@@ -2691,6 +4112,38 @@ ALTER TABLE `qr_tokens`
 ALTER TABLE `razorpay_webhook_logs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `ux_razorpay_webhook_payment` (`payment_id`);
+
+--
+-- Indexes for table `recurring_donations`
+--
+ALTER TABLE `recurring_donations`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_rec_subscription_id` (`razorpay_subscription_id`),
+  ADD KEY `idx_rec_donor_email` (`donor_email`),
+  ADD KEY `idx_rec_donor_mobile` (`donor_mobile`),
+  ADD KEY `idx_rec_status_next_charge` (`status`,`next_charge_date`),
+  ADD KEY `idx_rec_project_id` (`project_id`),
+  ADD KEY `idx_rec_sa_student` (`sa_student_id`),
+  ADD KEY `idx_rec_field_agent` (`field_agent_id`);
+
+--
+-- Indexes for table `recurring_donation_transactions`
+--
+ALTER TABLE `recurring_donation_transactions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_rec_tx_parent` (`recurring_donation_id`),
+  ADD KEY `idx_rec_tx_donation` (`donation_id`),
+  ADD KEY `idx_rec_tx_status_date` (`status`,`charge_date`),
+  ADD KEY `idx_rec_tx_payment_id` (`razorpay_payment_id`),
+  ADD KEY `idx_rec_tx_subscription_id` (`razorpay_subscription_id`);
+
+--
+-- Indexes for table `sanstha_certificates`
+--
+ALTER TABLE `sanstha_certificates`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `idx_scert_no` (`certificate_no`),
+  ADD KEY `idx_scert_status` (`status`);
 
 --
 -- Indexes for table `sa_activity_logs`
@@ -2930,6 +4383,24 @@ ALTER TABLE `settings`
   ADD PRIMARY KEY (`setting_key`);
 
 --
+-- Indexes for table `skill_courses`
+--
+ALTER TABLE `skill_courses`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_skill_category` (`category`),
+  ADD KEY `idx_skill_status` (`status`);
+
+--
+-- Indexes for table `skill_course_enrollments`
+--
+ALTER TABLE `skill_course_enrollments`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `application_no` (`application_no`),
+  ADD KEY `idx_enr_course` (`course_id`),
+  ADD KEY `idx_enr_status` (`status`),
+  ADD KEY `idx_enr_contact` (`contact`);
+
+--
 -- Indexes for table `sliders`
 --
 ALTER TABLE `sliders`
@@ -2940,6 +4411,20 @@ ALTER TABLE `sliders`
 --
 ALTER TABLE `sponsors`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `staff_letters`
+--
+ALTER TABLE `staff_letters`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_staff_letter_no` (`letter_no`),
+  ADD KEY `idx_staff_letter_type` (`type`),
+  ADD KEY `idx_staff_letter_status` (`status`),
+  ADD KEY `idx_staff_letter_name` (`name`),
+  ADD KEY `idx_staff_letter_designation` (`designation`),
+  ADD KEY `idx_staff_letter_issued_date` (`issued_date`),
+  ADD KEY `idx_staff_letter_issued_by` (`issued_by`),
+  ADD KEY `idx_staff_letter_created_at` (`created_at`);
 
 --
 -- Indexes for table `templates`
@@ -3030,6 +4515,12 @@ ALTER TABLE `agent_salary_ledger`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `agreements`
+--
+ALTER TABLE `agreements`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `attendance_bonus_history`
 --
 ALTER TABLE `attendance_bonus_history`
@@ -3072,6 +4563,24 @@ ALTER TABLE `bank_accounts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `beneficiaries`
+--
+ALTER TABLE `beneficiaries`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `beneficiary_assistance_history`
+--
+ALTER TABLE `beneficiary_assistance_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `beneficiary_categories`
+--
+ALTER TABLE `beneficiary_categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT for table `cash_deposits`
 --
 ALTER TABLE `cash_deposits`
@@ -3081,7 +4590,13 @@ ALTER TABLE `cash_deposits`
 -- AUTO_INCREMENT for table `certificates`
 --
 ALTER TABLE `certificates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `complaints`
+--
+ALTER TABLE `complaints`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `contact_messages`
@@ -3102,10 +4617,22 @@ ALTER TABLE `crowdfunding_campaigns`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `custom_receipts`
+--
+ALTER TABLE `custom_receipts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `doctor_agreements`
+--
+ALTER TABLE `doctor_agreements`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `donations`
 --
 ALTER TABLE `donations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `donation_achievements`
@@ -3138,6 +4665,24 @@ ALTER TABLE `event_registrations`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `expenses`
+--
+ALTER TABLE `expenses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `expense_categories`
+--
+ALTER TABLE `expense_categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `feedbacks`
+--
+ALTER TABLE `feedbacks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `field_agents`
 --
 ALTER TABLE `field_agents`
@@ -3150,16 +4695,82 @@ ALTER TABLE `gallery`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
+-- AUTO_INCREMENT for table `healthcare_providers`
+--
+ALTER TABLE `healthcare_providers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `healthcare_referrals`
+--
+ALTER TABLE `healthcare_referrals`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `healthcare_services`
+--
+ALTER TABLE `healthcare_services`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `health_cards`
+--
+ALTER TABLE `health_cards`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
 -- AUTO_INCREMENT for table `health_programs`
 --
 ALTER TABLE `health_programs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `hr_policies`
+--
+ALTER TABLE `hr_policies`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT for table `inquiries`
 --
 ALTER TABLE `inquiries`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `item_donations`
+--
+ALTER TABLE `item_donations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `item_donation_categories`
+--
+ALTER TABLE `item_donation_categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `job_applications`
+--
+ALTER TABLE `job_applications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `job_openings`
+--
+ALTER TABLE `job_openings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `join_applications`
+--
+ALTER TABLE `join_applications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `letters`
+--
+ALTER TABLE `letters`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `management_body`
@@ -3216,10 +4827,22 @@ ALTER TABLE `notification_templates`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
+-- AUTO_INCREMENT for table `org_structure`
+--
+ALTER TABLE `org_structure`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
 -- AUTO_INCREMENT for table `payment_qrs`
 --
 ALTER TABLE `payment_qrs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `payment_webhook_logs`
+--
+ALTER TABLE `payment_webhook_logs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `posts`
@@ -3280,6 +4903,24 @@ ALTER TABLE `qr_tokens`
 --
 ALTER TABLE `razorpay_webhook_logs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `recurring_donations`
+--
+ALTER TABLE `recurring_donations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `recurring_donation_transactions`
+--
+ALTER TABLE `recurring_donation_transactions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `sanstha_certificates`
+--
+ALTER TABLE `sanstha_certificates`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `sa_activity_logs`
@@ -3408,10 +5049,22 @@ ALTER TABLE `sa_vendor_leads`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `skill_courses`
+--
+ALTER TABLE `skill_courses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `skill_course_enrollments`
+--
+ALTER TABLE `skill_course_enrollments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `sliders`
 --
 ALTER TABLE `sliders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `sponsors`
@@ -3420,10 +5073,16 @@ ALTER TABLE `sponsors`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `staff_letters`
+--
+ALTER TABLE `staff_letters`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT for table `templates`
 --
 ALTER TABLE `templates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `testimonials`
@@ -3478,6 +5137,12 @@ ALTER TABLE `agent_salary_ledger`
   ADD CONSTRAINT `agent_salary_ledger_ibfk_1` FOREIGN KEY (`agent_id`) REFERENCES `field_agents` (`id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `agreements`
+--
+ALTER TABLE `agreements`
+  ADD CONSTRAINT `fk_agr_created_by` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
 -- Constraints for table `attendance_bonus_history`
 --
 ALTER TABLE `attendance_bonus_history`
@@ -3506,11 +5171,54 @@ ALTER TABLE `attendance_monthly_summary`
   ADD CONSTRAINT `attendance_monthly_summary_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `sa_students` (`id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `beneficiaries`
+--
+ALTER TABLE `beneficiaries`
+  ADD CONSTRAINT `fk_ben_agent` FOREIGN KEY (`field_agent_id`) REFERENCES `field_agents` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_ben_category` FOREIGN KEY (`category_id`) REFERENCES `beneficiary_categories` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_ben_coordinator` FOREIGN KEY (`coordinator_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_ben_project` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_ben_registered_by` FOREIGN KEY (`registered_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_ben_student` FOREIGN KEY (`sa_student_id`) REFERENCES `sa_students` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `beneficiary_assistance_history`
+--
+ALTER TABLE `beneficiary_assistance_history`
+  ADD CONSTRAINT `fk_ast_agent` FOREIGN KEY (`field_agent_id`) REFERENCES `field_agents` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_ast_beneficiary` FOREIGN KEY (`beneficiary_id`) REFERENCES `beneficiaries` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_ast_coordinator` FOREIGN KEY (`coordinator_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_ast_donation` FOREIGN KEY (`donation_id`) REFERENCES `donations` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_ast_event` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_ast_item_donation` FOREIGN KEY (`item_donation_id`) REFERENCES `item_donations` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_ast_project` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_ast_student` FOREIGN KEY (`sa_student_id`) REFERENCES `sa_students` (`id`) ON DELETE SET NULL;
+
+--
 -- Constraints for table `cash_deposits`
 --
 ALTER TABLE `cash_deposits`
   ADD CONSTRAINT `cash_deposits_ibfk_1` FOREIGN KEY (`donation_id`) REFERENCES `donations` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `cash_deposits_ibfk_2` FOREIGN KEY (`agent_id`) REFERENCES `field_agents` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `complaints`
+--
+ALTER TABLE `complaints`
+  ADD CONSTRAINT `fk_complaints_reply_by` FOREIGN KEY (`reply_by`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `custom_receipts`
+--
+ALTER TABLE `custom_receipts`
+  ADD CONSTRAINT `fk_custom_receipts_generated_by` FOREIGN KEY (`generated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `doctor_agreements`
+--
+ALTER TABLE `doctor_agreements`
+  ADD CONSTRAINT `fk_doc_agr_created_by` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_doc_agr_partner` FOREIGN KEY (`partner_id`) REFERENCES `healthcare_providers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `donations`
@@ -3538,10 +5246,88 @@ ALTER TABLE `event_registrations`
   ADD CONSTRAINT `fk_event_regs_event` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `expenses`
+--
+ALTER TABLE `expenses`
+  ADD CONSTRAINT `fk_expenses_added_by` FOREIGN KEY (`added_by`) REFERENCES `users` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_expenses_approved_by` FOREIGN KEY (`approved_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_expenses_category` FOREIGN KEY (`category_id`) REFERENCES `expense_categories` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_expenses_project` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `feedbacks`
+--
+ALTER TABLE `feedbacks`
+  ADD CONSTRAINT `fk_feedback_reply_by` FOREIGN KEY (`reply_by`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
 -- Constraints for table `field_agents`
 --
 ALTER TABLE `field_agents`
   ADD CONSTRAINT `field_agents_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `healthcare_providers`
+--
+ALTER TABLE `healthcare_providers`
+  ADD CONSTRAINT `fk_hcp_created_by` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `healthcare_referrals`
+--
+ALTER TABLE `healthcare_referrals`
+  ADD CONSTRAINT `fk_hcr_beneficiary` FOREIGN KEY (`beneficiary_id`) REFERENCES `beneficiaries` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_hcr_created_by` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_hcr_provider` FOREIGN KEY (`provider_id`) REFERENCES `healthcare_providers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `healthcare_services`
+--
+ALTER TABLE `healthcare_services`
+  ADD CONSTRAINT `fk_hcs_provider` FOREIGN KEY (`provider_id`) REFERENCES `healthcare_providers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `health_cards`
+--
+ALTER TABLE `health_cards`
+  ADD CONSTRAINT `fk_health_cards_beneficiary` FOREIGN KEY (`beneficiary_id`) REFERENCES `beneficiaries` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_health_cards_issued_by` FOREIGN KEY (`issued_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `item_donations`
+--
+ALTER TABLE `item_donations`
+  ADD CONSTRAINT `fk_item_agent` FOREIGN KEY (`field_agent_id`) REFERENCES `field_agents` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_item_category` FOREIGN KEY (`category_id`) REFERENCES `item_donation_categories` (`id`) ON DELETE NO ACTION,
+  ADD CONSTRAINT `fk_item_project` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_item_student` FOREIGN KEY (`sa_student_id`) REFERENCES `sa_students` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `job_applications`
+--
+ALTER TABLE `job_applications`
+  ADD CONSTRAINT `fk_job_applications_job` FOREIGN KEY (`job_id`) REFERENCES `job_openings` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_job_applications_reviewed_by` FOREIGN KEY (`reviewed_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `job_openings`
+--
+ALTER TABLE `job_openings`
+  ADD CONSTRAINT `fk_job_openings_created_by` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `join_applications`
+--
+ALTER TABLE `join_applications`
+  ADD CONSTRAINT `fk_join_app_job` FOREIGN KEY (`job_id`) REFERENCES `job_openings` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_join_app_project` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_join_app_reviewed_by` FOREIGN KEY (`reviewed_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `letters`
+--
+ALTER TABLE `letters`
+  ADD CONSTRAINT `fk_letters_generated_by` FOREIGN KEY (`generated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `members`
@@ -3576,6 +5362,14 @@ ALTER TABLE `notification_preferences`
   ADD CONSTRAINT `notification_preferences_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `sa_students` (`id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `org_structure`
+--
+ALTER TABLE `org_structure`
+  ADD CONSTRAINT `fk_org_member_desig` FOREIGN KEY (`designation_id`) REFERENCES `member_designations` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_org_mgmt_body` FOREIGN KEY (`management_body_id`) REFERENCES `management_body` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_org_parent` FOREIGN KEY (`parent_id`) REFERENCES `org_structure` (`id`) ON DELETE SET NULL;
+
+--
 -- Constraints for table `program_features`
 --
 ALTER TABLE `program_features`
@@ -3605,6 +5399,21 @@ ALTER TABLE `qr_scan_logs`
 --
 ALTER TABLE `qr_tokens`
   ADD CONSTRAINT `fk_qr_tokens_member` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `recurring_donations`
+--
+ALTER TABLE `recurring_donations`
+  ADD CONSTRAINT `fk_rec_agent` FOREIGN KEY (`field_agent_id`) REFERENCES `field_agents` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_rec_project` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_rec_student` FOREIGN KEY (`sa_student_id`) REFERENCES `sa_students` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `recurring_donation_transactions`
+--
+ALTER TABLE `recurring_donation_transactions`
+  ADD CONSTRAINT `fk_rec_tx_donation` FOREIGN KEY (`donation_id`) REFERENCES `donations` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_rec_tx_parent` FOREIGN KEY (`recurring_donation_id`) REFERENCES `recurring_donations` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `sa_penalties`
@@ -3678,6 +5487,18 @@ ALTER TABLE `sa_vendor_leads`
   ADD CONSTRAINT `fk_sa_vendor_leads_student` FOREIGN KEY (`student_id`) REFERENCES `sa_students` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_sa_vendor_leads_updated_by_user` FOREIGN KEY (`updated_by_user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_sa_vendor_leads_verified_by_user` FOREIGN KEY (`verified_by_user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `skill_course_enrollments`
+--
+ALTER TABLE `skill_course_enrollments`
+  ADD CONSTRAINT `fk_enr_course_id` FOREIGN KEY (`course_id`) REFERENCES `skill_courses` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `staff_letters`
+--
+ALTER TABLE `staff_letters`
+  ADD CONSTRAINT `fk_staff_letter_issued_by` FOREIGN KEY (`issued_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `templates`
