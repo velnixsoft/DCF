@@ -1,0 +1,269 @@
+/* ==========================================================================
+   NGO BRAND DESIGN SYSTEM & PALETTE OVERRIDES - LOGO INSPIRED
+   ========================================================================== */
+
+:root {
+  /* Brand Core Palette */
+  --brand-blue: #1070B0;
+  --brand-blue-hover: #0d5b90;
+  --brand-cyan: #20A0D0;
+  --brand-green: #00B060;
+  --brand-green-hover: #009c54;
+  --brand-orange: #F0A010;
+  --brand-orange-hover: #d48b0a;
+  --brand-pink: #F05060;
+
+  /* Legacy Core System Mapping */
+  --primary-orange: var(--brand-orange);
+  --primary-orange-hover: var(--brand-orange-hover);
+  --primary-orange-dark: #c07e0c;
+  --primary-orange-light: #fffcf5;
+  --primary-orange-soft: #fef5e7;
+
+  --secondary-teal: var(--brand-blue);
+  --secondary-teal-hover: var(--brand-cyan);
+  --secondary-teal-dark: var(--brand-blue-hover);
+  --secondary-teal-light: #f0f7fc;
+  --secondary-teal-soft: #d8ecf8;
+
+  --bg-white: #FFFFFF;
+  --bg-cream: #fffcf5;
+  --bg-navy: #0e1e2d;
+
+  --text-dark: #1F2937;
+  --text-muted: #4B5563;
+  --border-light: #E5E7EB;
+  --color-success: var(--brand-green);
+
+  /* Legacy shorthand variables */
+  --s: var(--brand-blue);
+  --sl: var(--brand-cyan);
+  --sd: var(--brand-blue-hover);
+  --g: var(--brand-green);
+  --gl: #2cd58a;
+  --o: var(--brand-orange);
+  --ol: #ffd07d;
+  --y: var(--brand-orange);
+  --yd: var(--brand-orange-hover);
+  --bg-warm: #fffcf5;
+  --bg-warm2: #FFFFFF;
+  --ch: #1F2937;
+  --muted: #4B5563;
+  --subtle: #6B7280;
+  --white: #FFFFFF;
+}
+
+/* Base Body Styling */
+body {
+  color: var(--text-dark);
+  background-color: var(--bg-white);
+  font-family: 'Outfit', 'Inter', sans-serif;
+}
+
+/* Card Standards */
+.foundation-card,
+.card-brand {
+  background-color: #FFFFFF !important;
+  border-radius: 18px !important;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+}
+
+.foundation-card:hover,
+.card-brand:hover {
+  border-color: var(--brand-blue) !important;
+  box-shadow: 0 12px 30px rgba(16, 112, 176, 0.15) !important;
+  transform: translateY(-3px);
+}
+
+/* Button Standards */
+.btn-primary-orange,
+.btn-orange {
+  background-color: var(--brand-orange) !important;
+  color: #FFFFFF !important;
+  font-weight: 700;
+  border-radius: 9999px;
+  padding: 0.75rem 1.75rem;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(240, 160, 16, 0.35);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-primary-orange:hover,
+.btn-orange:hover {
+  background-color: var(--brand-orange-hover) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 6px 20px rgba(212, 139, 10, 0.45);
+  transform: translateY(-1px);
+}
+
+.btn-secondary-teal,
+.btn-teal {
+  background-color: var(--brand-blue) !important;
+  color: #FFFFFF !important;
+  font-weight: 700;
+  border-radius: 9999px;
+  padding: 0.75rem 1.75rem;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(16, 112, 176, 0.3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-secondary-teal:hover,
+.btn-teal:hover {
+  background-color: var(--brand-blue-hover) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 6px 20px rgba(13, 91, 144, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Links */
+a.brand-link,
+.link-teal {
+  color: var(--brand-blue);
+  transition: color 0.2s ease;
+}
+
+a.brand-link:hover,
+.link-teal:hover {
+  color: var(--brand-cyan);
+}
+
+/* Badge styling */
+.badge-teal {
+  background-color: #f0f7fc !important;
+  color: var(--brand-blue) !important;
+  border: 1px solid #d8ecf8;
+}
+
+.badge-orange {
+  background-color: #fffcf5 !important;
+  color: var(--brand-orange-hover) !important;
+  border: 1px solid #fef5e7;
+}
+
+/* Form inputs focus state */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--brand-blue) !important;
+  box-shadow: 0 0 0 3px rgba(16, 112, 176, 0.15) !important;
+}
+
+/* Global Overrides for Tailwind classes across legacy pages */
+.bg-green-500, .bg-green-600, .bg-green-700, .bg-emerald-600, .bg-emerald-700, .bg-teal-600 {
+  background-color: var(--brand-green) !important;
+}
+
+.hover\:bg-green-600:hover, .hover\:bg-green-700:hover, .hover\:bg-green-800:hover,
+.hover\:bg-emerald-700:hover, .hover\:bg-teal-700:hover {
+  background-color: var(--brand-green-hover) !important;
+}
+
+.text-green-600, .text-green-700, .text-green-800, .text-emerald-600, .text-emerald-700, .text-teal-600 {
+  color: var(--brand-green) !important;
+}
+
+.hover\:text-green-600:hover, .hover\:text-green-700:hover, .hover\:text-green-800:hover,
+.hover\:text-emerald-600:hover {
+  color: var(--brand-green-hover) !important;
+}
+
+.border-green-500, .border-green-600, .border-emerald-500, .border-teal-500 {
+  border-color: var(--brand-green) !important;
+}
+
+.bg-amber-500, .bg-amber-600, .bg-orange-500, .bg-orange-600 {
+  background-color: var(--brand-orange) !important;
+}
+
+.hover\:bg-amber-600:hover, .hover\:bg-amber-700:hover, .hover\:bg-orange-600:hover {
+  background-color: var(--brand-orange-hover) !important;
+}
+
+.text-amber-500, .text-amber-600, .text-orange-500, .text-orange-600 {
+  color: var(--brand-orange) !important;
+}
+
+.hover\:text-amber-500:hover, .hover\:text-amber-600:hover, .hover\:text-orange-500:hover {
+  color: var(--brand-orange-hover) !important;
+}
+
+.border-amber-500, .border-amber-600, .border-orange-500 {
+  border-color: var(--brand-orange) !important;
+}
+
+/* Intercept classes referencing hardcoded old colors */
+.text-\[\#0F8B8D\] {
+  color: var(--brand-blue) !important;
+}
+.hover\:text-\[\#0F8B8D\]:hover {
+  color: var(--brand-cyan) !important;
+}
+.bg-\[\#0F8B8D\] {
+  background-color: var(--brand-blue) !important;
+}
+.hover\:bg-\[\#0F8B8D\]:hover {
+  background-color: var(--brand-blue-hover) !important;
+}
+.border-\[\#0F8B8D\] {
+  border-color: var(--brand-blue) !important;
+}
+.focus\:ring-\[\#0F8B8D\]:focus {
+  --tw-ring-color: var(--brand-blue) !important;
+  border-color: var(--brand-blue) !important;
+}
+.from-\[\#0F8B8D\] {
+  --tw-gradient-from: var(--brand-blue) !important;
+  --tw-gradient-to: rgb(16 112 176 / 0) !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+}
+.to-\[\#0F8B8D\] {
+  --tw-gradient-to: var(--brand-blue) !important;
+}
+
+.text-\[\#F4A640\] {
+  color: var(--brand-orange) !important;
+}
+.hover\:text-\[\#F4A640\]:hover {
+  color: var(--brand-orange-hover) !important;
+}
+.bg-\[\#F4A640\] {
+  background-color: var(--brand-orange) !important;
+}
+.hover\:bg-\[\#F4A640\]:hover {
+  background-color: var(--brand-orange-hover) !important;
+}
+.border-\[\#F4A640\] {
+  border-color: var(--brand-orange) !important;
+}
+.from-\[\#F4A640\] {
+  --tw-gradient-from: var(--brand-orange) !important;
+  --tw-gradient-to: rgb(240 160 16 / 0) !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+}
+.to-\[\#F4A640\] {
+  --tw-gradient-to: var(--brand-orange) !important;
+}
+
+.bg-\[\#FFF8F1\] {
+  background-color: #fffcf5 !important;
+}
+.border-\[\#FEECDC\] {
+  border-color: #fef5e7 !important;
+}
+.text-\[\#D98E2B\] {
+  color: var(--brand-orange-hover) !important;
+}
+.bg-\[\#F0FDFD\] {
+  background-color: #f0f7fc !important;
+}
+.border-\[\#CCFBF1\] {
+  border-color: #d8ecf8 !important;
+}

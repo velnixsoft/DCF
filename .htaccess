@@ -1,0 +1,58 @@
+RewriteEngine On
+
+# 1. Strip trailing slashes from clean URLs (excluding actual directories)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)/$ $1 [R=301,L]
+
+# 2. Redirect old .php files to clean URLs (GET requests only, to preserve POST payloads)
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{REQUEST_METHOD} GET
+RewriteRule ^index\.php$ ./ [R=301,L]
+
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{REQUEST_METHOD} GET
+RewriteRule ^about-us\.php$ about [R=301,L]
+
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{REQUEST_METHOD} GET
+RewriteRule ^about\.php$ about [R=301,L]
+
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteRule ^about-us$ about [R=301,L]
+
+# Redirect /admin/index.php to /admin
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{REQUEST_METHOD} GET
+RewriteRule ^admin/index\.php$ admin [R=301,L]
+
+# Redirect admin URLs containing underscores to hyphenated URLs (GET requests only)
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{REQUEST_METHOD} GET
+RewriteRule ^(admin/[^_]*)_([^_]*)$ $1-$2 [R=301,L]
+
+# Redirect general .php files to their clean URLs
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{REQUEST_METHOD} GET
+RewriteRule ^(.+)\.php$ $1 [R=301,L]
+
+# 3. Map clean URLs internally to the corresponding PHP scripts
+RewriteRule ^about$ about-us.php [QSA,L]
+RewriteRule ^$ index.php [QSA,L]
+
+# Match generic clean admin URLs exactly if a corresponding PHP file exists
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(admin/.*)$ $1.php [QSA,L]
+
+# Internally replace hyphens with underscores for admin URLs that don't match an existing file
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME}.php !-f
+RewriteRule ^(admin/[^-]*)-([^-]*)$ $1_$2 [N]
+
+# Match generic clean URLs to their corresponding PHP files (general fallback)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)$ $1.php [QSA,L]
